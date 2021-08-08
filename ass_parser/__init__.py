@@ -1,0 +1,1 @@
+"""ASS parser main module."""
