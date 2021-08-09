@@ -17,5 +17,6 @@ jobs = 0
 disable = [
     "import-error",  # for pre-commit, which cannot install external modules
     "signature-differs",  # leave type checking to mypy
+    "too-few-public-methods",
     "too-many-instance-attributes",
 ]

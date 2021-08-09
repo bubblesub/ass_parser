@@ -32,9 +32,8 @@ class ObservableSequence(MutableSequence[TItem]):
     """
 
     items_about_to_be_removed = Observable()
-    items_removed = Observable()
-
     items_about_to_be_inserted = Observable()
+    items_removed = Observable()
     items_inserted = Observable()
 
     def __init__(self) -> None:

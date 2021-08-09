@@ -1,6 +1,6 @@
 """Observable containers and objects."""
 from dataclasses import dataclass, field
-from typing import Callable, Optional
+from typing import Callable, Optional, Type, cast
 
 
 @dataclass
@@ -15,11 +15,14 @@ class Event:
 Callback = Callable[[Event], None]
 
 
-class Observable:
+class BoundObservable:
     """An observable that can be used to subscribe to events."""
 
-    def __init__(self) -> None:
+    __slots__ = ["parent", "callbacks"]
+
+    def __init__(self, parent: "Observable") -> None:
         """Initialize self."""
+        self.parent = parent
         self.callbacks: list[Callback] = []
 
     def subscribe(self, callback: Callback) -> None:
@@ -35,6 +38,27 @@ class Observable:
 
         :param event: event to broadcast.
         """
-        event.source = self
+        event.source = self.parent
         for callback in self.callbacks:
             callback(event)
+
+
+class Observable:
+    """A binding mechanism to associate BoundObservable to instances."""
+
+    __slots__ = ["public_name", "private_name"]
+
+    def __init__(self) -> None:
+        self.public_name = ""
+        self.private_name = ""
+
+    def __set_name__(self, owner: Type[object], name: str) -> None:
+        self.public_name = name
+        self.private_name = "_" + name
+
+    def __get__(
+        self, obj: object, objtype: Optional[Type[object]] = None
+    ) -> BoundObservable:
+        if not hasattr(obj, self.private_name):
+            setattr(obj, self.private_name, BoundObservable(self))
+        return cast(BoundObservable, getattr(obj, self.private_name))
