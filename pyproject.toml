@@ -16,4 +16,5 @@ jobs = 0
 [tool.pylint.message_control]
 disable = [
     "signature-differs",
+    "too-many-instance-attributes",
 ]
