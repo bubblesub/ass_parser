@@ -13,12 +13,12 @@ def test_ass_meta_get_set() -> None:
 
 def test_ass_meta_get_set_emits_change_event() -> None:
     """Test that basic attribute getters and setters emits a change event."""
-    changed = Mock()
+    subscriber = Mock()
     meta = AssMeta()
-    meta.changed.subscribe(changed)
+    meta.changed.subscribe(subscriber)
     meta["key"] = "value"
     assert meta["key"] == "value"
-    changed.assert_called_once()
+    subscriber.assert_called_once()
 
 
 def test_ass_meta_len() -> None:
@@ -45,12 +45,12 @@ def test_ass_meta_delete() -> None:
 
 def test_ass_meta_delete_change_event() -> None:
     """Test that attribute removal emits a change event."""
-    changed = Mock()
+    subscriber = Mock()
     meta = AssMeta()
     meta["key"] = "value"
-    meta.changed.subscribe(changed)
+    meta.changed.subscribe(subscriber)
     del meta["key"]
-    changed.assert_called_once()
+    subscriber.assert_called_once()
 
 
 def test_ass_meta_clear() -> None:
@@ -63,25 +63,25 @@ def test_ass_meta_clear() -> None:
 
 def test_ass_meta_clear_emits_change_event() -> None:
     """Test that AssMeta.clear() method emits a change event."""
-    changed = Mock()
+    subscriber = Mock()
     meta = AssMeta()
     meta["key"] = "value"
-    meta.changed.subscribe(changed)
+    meta.changed.subscribe(subscriber)
     meta.clear()
-    changed.assert_called_once()
+    subscriber.assert_called_once()
 
 
 def test_ass_meta_clear_emits_change_event_once() -> None:
     """Test that AssMeta.clear() method emits a change event once even if there
     are many items to remove.
     """
-    changed = Mock()
+    subscriber = Mock()
     meta = AssMeta()
     meta["test1"] = "value1"
     meta["key2"] = "value2"
-    meta.changed.subscribe(changed)
+    meta.changed.subscribe(subscriber)
     meta.clear()
-    changed.assert_called_once()
+    subscriber.assert_called_once()
 
 
 def test_ass_meta_update() -> None:
@@ -110,19 +110,19 @@ def test_ass_meta_update_by_tuples() -> None:
 
 def test_ass_meta_update_emits_change_event() -> None:
     """Test that AssMeta.update() method emits a change event."""
-    changed = Mock()
+    subscriber = Mock()
     meta = AssMeta()
-    meta.changed.subscribe(changed)
+    meta.changed.subscribe(subscriber)
     meta.update({"key1": "value1"})
-    changed.assert_called_once()
+    subscriber.assert_called_once()
 
 
 def test_ass_meta_update_emits_change_event_once() -> None:
     """Test that AssMeta.update() method emits a change event once even if there
     are many items to set.
     """
-    changed = Mock()
+    subscriber = Mock()
     meta = AssMeta()
-    meta.changed.subscribe(changed)
+    meta.changed.subscribe(subscriber)
     meta.update({"key1": "value1", "key2": "value2"})
-    changed.assert_called_once()
+    subscriber.assert_called_once()

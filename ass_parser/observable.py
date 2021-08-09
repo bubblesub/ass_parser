@@ -1,5 +1,5 @@
 """Observable containers and objects."""
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Callable, Optional
 
 
@@ -7,7 +7,9 @@ from typing import Callable, Optional
 class Event:
     """An event that can be emitted."""
 
-    source: Optional["Observable"] = None
+    source: Optional["Observable"] = field(
+        init=False, repr=False, default=None
+    )
 
 
 Callback = Callable[[Event], None]
