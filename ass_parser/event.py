@@ -1,9 +1,11 @@
 """ASS event (subtitle, comment etc.)."""
 from dataclasses import dataclass
 
+from ass_parser.observable_object import ObservableObject
+
 
 @dataclass
-class AssEvent:
+class AssEvent(ObservableObject):
     """ASS event (subtitle, comment etc.)."""
 
     start: int = 0
