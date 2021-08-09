@@ -15,6 +15,7 @@ jobs = 0
 
 [tool.pylint.message_control]
 disable = [
-    "signature-differs",
+    "import-error",  # for pre-commit, which cannot install external modules
+    "signature-differs",  # leave type checking to mypy
     "too-many-instance-attributes",
 ]
