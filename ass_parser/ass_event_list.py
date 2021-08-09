@@ -1,5 +1,5 @@
 """ASS events container."""
-from ass_parser.event import AssEvent
+from ass_parser.ass_event import AssEvent
 from ass_parser.observable_sequence import (
     ItemInsertionEvent,
     ItemRemovalEvent,

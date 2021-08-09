@@ -1,7 +1,7 @@
 """Tests for the AssEvent class."""
 from unittest.mock import Mock
 
-from ass_parser.event import AssEvent
+from ass_parser.ass_event import AssEvent
 
 
 def test_ass_event_default_text() -> None:

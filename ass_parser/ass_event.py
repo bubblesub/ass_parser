@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Optional
 from ass_parser.observable_object import ObservableObject
 
 if TYPE_CHECKING:
-    from ass_parser.event_list import AssEventList  # pragma: no coverage
+    from ass_parser.ass_event_list import AssEventList  # pragma: no coverage
 
 
 @dataclass

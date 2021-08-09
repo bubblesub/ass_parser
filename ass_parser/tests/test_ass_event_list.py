@@ -1,8 +1,8 @@
 """Tests for the AssEventList class."""
 import pytest
 
-from ass_parser.event import AssEvent
-from ass_parser.event_list import AssEventList
+from ass_parser.ass_event import AssEvent
+from ass_parser.ass_event_list import AssEventList
 
 
 def test_ass_event_list_append_sets_parent() -> None:
