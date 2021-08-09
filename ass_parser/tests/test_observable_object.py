@@ -8,7 +8,7 @@ import pytest
 from ass_parser.observable_object import ObservableObject
 
 
-class TestObject(ObservableObject):
+class DummyObject(ObservableObject):
     """Test ObservableObject implementation."""
 
     def __init__(self, name: str, count: int) -> None:
@@ -18,15 +18,15 @@ class TestObject(ObservableObject):
 
 
 @dataclass
-class TestDataclassObject(ObservableObject):
+class DummyDataclassObject(ObservableObject):
     """Test ObservableObject implementation using @dataclass idiom."""
 
     name: str
     count: int
 
 
-@pytest.mark.parametrize("cls", [TestObject, TestDataclassObject])
-def test_property_change_emits_change_event(cls: Type[TestObject]) -> None:
+@pytest.mark.parametrize("cls", [DummyObject, DummyDataclassObject])
+def test_property_change_emits_change_event(cls: Type[DummyObject]) -> None:
     """Test that basic property changing emits a change event."""
     subscriber = Mock()
     obj = cls(count=1, name="test")
@@ -35,8 +35,8 @@ def test_property_change_emits_change_event(cls: Type[TestObject]) -> None:
     subscriber.assert_called_once()
 
 
-@pytest.mark.parametrize("cls", [TestObject, TestDataclassObject])
-def test_throttling_property_updates(cls: Type[TestObject]) -> None:
+@pytest.mark.parametrize("cls", [DummyObject, DummyDataclassObject])
+def test_throttling_property_updates(cls: Type[DummyObject]) -> None:
     """Test begin_update() and end_update() behavior."""
     subscriber = Mock()
     obj = cls(count=1, name="test")
