@@ -1,7 +1,11 @@
 """ASS event (subtitle, comment etc.)."""
 from dataclasses import dataclass
+from typing import TYPE_CHECKING, Optional
 
 from ass_parser.observable_object import ObservableObject
+
+if TYPE_CHECKING:
+    from ass_parser.event_list import AssEventList  # pragma: no coverage
 
 
 @dataclass
@@ -20,6 +24,8 @@ class AssEvent(ObservableObject):
     margin_right: int = 0
     margin_vertical: int = 0
     is_comment: bool = False
+
+    parent: Optional["AssEventList"] = None
 
     _note = ""
     _text = ""
