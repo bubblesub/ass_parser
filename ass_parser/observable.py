@@ -1,31 +1,31 @@
 """Observable containers and objects."""
 from dataclasses import dataclass, field
-from typing import Callable, Optional, Type, cast
+from typing import Any, Callable, Generic, Optional, Type, TypeVar, cast
+
+TEvent = TypeVar("TEvent", bound="Event")
 
 
 @dataclass
 class Event:
     """An event that can be emitted."""
 
-    source: Optional["Observable"] = field(
-        init=False, repr=False, default=None
-    )
+    source: Any = field(init=False, repr=False, default=None)
 
 
-Callback = Callable[[Event], None]
+Callback = Callable[[TEvent], None]
 
 
-class BoundObservable:
+class BoundObservable(Generic[TEvent]):
     """An observable that can be used to subscribe to events."""
 
     __slots__ = ["parent", "callbacks"]
 
-    def __init__(self, parent: "Observable") -> None:
+    def __init__(self, parent: "Observable[TEvent]") -> None:
         """Initialize self."""
         self.parent = parent
-        self.callbacks: list[Callback] = []
+        self.callbacks: list[Callback[TEvent]] = []
 
-    def subscribe(self, callback: Callback) -> None:
+    def subscribe(self, callback: Callback[TEvent]) -> None:
         """Subscribe to events.
 
         :param callback: user function to call.
@@ -33,7 +33,7 @@ class BoundObservable:
         """
         self.callbacks.append(callback)
 
-    def emit(self, event: Event) -> None:
+    def emit(self, event: TEvent) -> None:
         """Emit an event to the subscribed functions.
 
         :param event: event to broadcast.
@@ -43,7 +43,7 @@ class BoundObservable:
             callback(event)
 
 
-class Observable:
+class Observable(Generic[TEvent]):
     """A binding mechanism to associate BoundObservable to instances."""
 
     __slots__ = ["public_name", "private_name"]
@@ -58,7 +58,7 @@ class Observable:
 
     def __get__(
         self, obj: object, objtype: Optional[Type[object]] = None
-    ) -> BoundObservable:
+    ) -> BoundObservable[TEvent]:
         if not hasattr(obj, self.private_name):
-            setattr(obj, self.private_name, BoundObservable(self))
-        return cast(BoundObservable, getattr(obj, self.private_name))
+            setattr(obj, self.private_name, BoundObservable[TEvent](self))
+        return cast(BoundObservable[TEvent], getattr(obj, self.private_name))

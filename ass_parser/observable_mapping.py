@@ -19,7 +19,7 @@ class ObservableMapping(MutableMapping[TKey, TValue]):
     collection change events.
     """
 
-    changed = Observable()
+    changed = Observable[ItemChangeEvent]()
 
     def __init__(self) -> None:
         """Initialize self."""

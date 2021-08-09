@@ -31,10 +31,10 @@ class ObservableSequence(MutableSequence[TItem]):
     collection change events.
     """
 
-    items_about_to_be_removed = Observable()
-    items_about_to_be_inserted = Observable()
-    items_removed = Observable()
-    items_inserted = Observable()
+    items_about_to_be_removed = Observable[ItemRemovalEvent[TItem]]()
+    items_about_to_be_inserted = Observable[ItemInsertionEvent[TItem]]()
+    items_removed = Observable[ItemRemovalEvent[TItem]]()
+    items_inserted = Observable[ItemInsertionEvent[TItem]]()
 
     def __init__(self) -> None:
         """Initialize self."""

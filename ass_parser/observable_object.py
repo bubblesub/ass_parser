@@ -17,7 +17,7 @@ class ObservableObject:
     events.
     """
 
-    changed = Observable()
+    changed = Observable[ObjectChangeEvent]()
 
     def __setattr__(self, prop: str, new_value: Any) -> None:
         """Set attribute.
