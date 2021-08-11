@@ -1,7 +1,7 @@
 """ObservableSequence definition."""
-from collections.abc import MutableSequence
+from collections.abc import Iterable, MutableSequence
 from dataclasses import dataclass
-from typing import Generic, Iterable, TypeVar, Union, overload
+from typing import Generic, TypeVar, Union, overload
 
 from ass_parser.observable import Event, Observable
 

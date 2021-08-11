@@ -1,7 +1,7 @@
 """ObservableMapping definition."""
-from collections.abc import MutableMapping
+from collections.abc import Iterable, Iterator, Mapping, MutableMapping
 from dataclasses import dataclass
-from typing import Iterable, Iterator, Mapping, TypeVar, Union, cast, overload
+from typing import TypeVar, Union, cast, overload
 
 from ass_parser.observable import Event, Observable
 
