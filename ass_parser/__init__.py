@@ -4,6 +4,7 @@ from ass_parser.ass_event import AssEvent
 from ass_parser.ass_event_list import AssEventList
 from ass_parser.ass_meta import AssMeta
 from ass_parser.ass_style import AssStyle
+from ass_parser.ass_style_list import AssStyleList
 
 __all__ = [
     "AssColor",
@@ -11,4 +12,5 @@ __all__ = [
     "AssEventList",
     "AssMeta",
     "AssStyle",
+    "AssStyleList",
 ]

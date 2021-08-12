@@ -11,6 +11,7 @@ class AssEventList(ObservableSequence[AssEvent]):
     """ASS events container."""
 
     def __init__(self) -> None:
+        """Initialize self."""
         super().__init__()
         self.items_inserted.subscribe(self._on_items_insertion)
         self.items_about_to_be_removed.subscribe(self._on_items_removal)

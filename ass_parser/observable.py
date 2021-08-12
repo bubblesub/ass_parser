@@ -21,7 +21,10 @@ class BoundObservable(Generic[TEvent]):
     __slots__ = ["parent", "callbacks"]
 
     def __init__(self, parent: "Observable[TEvent]") -> None:
-        """Initialize self."""
+        """Initialize self.
+
+        :parent: parent Observable
+        """
         self.parent = parent
         self.callbacks: list[Callback[TEvent]] = []
 
@@ -44,21 +47,31 @@ class BoundObservable(Generic[TEvent]):
 
 
 class Observable(Generic[TEvent]):
-    """A binding mechanism to associate BoundObservable to instances."""
+    """A binding mechanism to associate BoundObservable to class instances.
+
+    This class is meant to be used as a classvar.
+    """
 
     __slots__ = ["public_name", "private_name"]
 
     def __init__(self) -> None:
+        """Initialize self."""
         self.public_name = ""
         self.private_name = ""
 
     def __set_name__(self, owner: Type[object], name: str) -> None:
+        """Remember bound property names."""
         self.public_name = name
         self.private_name = "_" + name
 
     def __get__(
         self, obj: object, objtype: Optional[Type[object]] = None
     ) -> BoundObservable[TEvent]:
+        """Get a BoundObservable associated with this Observable.
+
+        If there is no such BoundObservable yet, create and bind it to the
+        owner class.
+        """
         if not hasattr(obj, self.private_name):
             setattr(obj, self.private_name, BoundObservable[TEvent](self))
         return cast(BoundObservable[TEvent], getattr(obj, self.private_name))

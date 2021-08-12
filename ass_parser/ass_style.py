@@ -1,8 +1,12 @@
 """ASS style."""
 from dataclasses import dataclass, field
+from typing import TYPE_CHECKING, Optional
 
 from ass_parser.ass_color import AssColor
 from ass_parser.observable_object import ObservableObject
+
+if TYPE_CHECKING:
+    from ass_parser.ass_style_list import AssStyleList  # pragma: no coverage
 
 
 @dataclass
@@ -40,6 +44,8 @@ class AssStyle(ObservableObject):
     margin_right: int = 20
     margin_vertical: int = 20
     encoding: int = 1
+
+    parent: Optional["AssStyleList"] = None
 
     def scale(self, factor: float) -> None:
         """Scale self by the given factor.
