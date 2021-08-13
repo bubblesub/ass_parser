@@ -70,6 +70,23 @@ class AssEvent(ObservableObject):
         """
         return self.end - self.start
 
+    def __copy__(self) -> "AssEvent":
+        """Duplicate self.
+
+        The copy is detached from the parent list.
+
+        :return: duplicate of self
+        """
+        ret = type(self)()
+        ret.__dict__.update(
+            {
+                key: value
+                for key, value in self.__dict__.items()
+                if not callable(value) and key != "parent"
+            }
+        )
+        return ret
+
 
 AssEvent.text = property(AssEvent.get_text, AssEvent.set_text)  # type: ignore
 AssEvent.note = property(AssEvent.get_note, AssEvent.set_note)  # type: ignore

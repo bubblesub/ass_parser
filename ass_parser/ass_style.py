@@ -58,3 +58,20 @@ class AssStyle(ObservableObject):
         self.margin_left = int(self.margin_left * factor)
         self.margin_right = int(self.margin_right * factor)
         self.margin_vertical = int(self.margin_vertical * factor)
+
+    def __copy__(self) -> "AssStyle":
+        """Duplicate self.
+
+        The copy is detached from the parent list.
+
+        :return: duplicate of self
+        """
+        ret = type(self)(name=self.name)
+        ret.__dict__.update(
+            {
+                key: value
+                for key, value in self.__dict__.items()
+                if not callable(value) and key != "parent"
+            }
+        )
+        return ret
