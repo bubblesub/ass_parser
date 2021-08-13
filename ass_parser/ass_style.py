@@ -72,6 +72,8 @@ class AssStyle(ObservableObject):
     def index(self) -> int:
         """Return style index within its parent list.
 
+        If the style does not have a parent list, raises a ValueError.
+
         :return: index
         """
         if self._index is None:

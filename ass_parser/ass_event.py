@@ -74,11 +74,23 @@ class AssEvent(ObservableObject):
     def index(self) -> int:
         """Return event index within its parent list.
 
+        If the event does not have a parent list, raises a ValueError.
+
         :return: index
         """
         if self._index is None:
             raise ValueError("AssEvent does not belong to any AssEventList")
         return self._index
+
+    @property
+    def number(self) -> int:
+        """Return event index within its parent list, starting at 1.
+
+        If event does not have a parent list, raises a ValueError.
+
+        :return: index
+        """
+        return self.index + 1
 
     @property
     def prev(self) -> Optional["AssEvent"]:

@@ -77,6 +77,8 @@ def test_ass_event_list_append_reindex() -> None:
     events.insert(0, event1)
     assert event1.index == 0
     assert event2.index == 1
+    assert event1.number == 1
+    assert event2.number == 2
 
 
 def test_ass_event_list_removal_reindex() -> None:
@@ -91,6 +93,10 @@ def test_ass_event_list_removal_reindex() -> None:
     with pytest.raises(ValueError):
         event2.index  # pylint: disable=pointless-statement
     assert event3.index == 1
+    assert event1.number == 1
+    with pytest.raises(ValueError):
+        event2.number  # pylint: disable=pointless-statement
+    assert event3.number == 2
 
 
 def test_prev_next_ass_event_without_parent() -> None:
