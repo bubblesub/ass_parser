@@ -19,11 +19,27 @@ class ItemRemovalEvent(Event, Generic[TItem]):
 
 @dataclass
 class ItemInsertionEvent(Event, Generic[TItem]):
-    """Observable sequence item insertion event."""
+    """Observable sequence item insertion event.
+
+    Broadcast by ObservableSequence after and before an item was inserted to
+    it.
+    """
 
     index: Union[int, slice]
     items: list[TItem]
     is_committed: bool
+
+
+@dataclass
+class ItemModificationEvent(Event, Generic[TItem]):
+    """Observable sequence item modification event.
+
+    Broadcast by third party classes after an item within an ObservableSequence
+    was modified.
+    """
+
+    index: Union[int, slice]
+    item: TItem
 
 
 class ObservableSequence(MutableSequence[TItem]):
@@ -35,6 +51,7 @@ class ObservableSequence(MutableSequence[TItem]):
     items_about_to_be_inserted = Observable[ItemInsertionEvent[TItem]]()
     items_removed = Observable[ItemRemovalEvent[TItem]]()
     items_inserted = Observable[ItemInsertionEvent[TItem]]()
+    items_modified = Observable[ItemModificationEvent[TItem]]()
 
     def __init__(self) -> None:
         """Initialize self."""

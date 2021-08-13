@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING, Optional
 
 from ass_parser.observable_object import ObservableObject
+from ass_parser.observable_sequence import ItemModificationEvent
 
 if TYPE_CHECKING:
     from ass_parser.ass_event_list import AssEventList  # pragma: no coverage
@@ -123,6 +124,14 @@ class AssEvent(ObservableObject):
         :return: duration
         """
         return self.end - self.start
+
+    def _after_change(self) -> None:
+        """Emit item modified event in the parent list."""
+        super()._after_change()
+        if self.parent is not None:
+            self.parent.items_modified.emit(
+                ItemModificationEvent(index=self.index, item=self)
+            )
 
     def __copy__(self) -> "AssEvent":
         """Duplicate self.

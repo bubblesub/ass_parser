@@ -1,5 +1,6 @@
 """Tests for the AssEventList class."""
 from copy import copy, deepcopy
+from unittest.mock import Mock
 
 import pytest
 
@@ -119,3 +120,16 @@ def test_prev_next_ass_event_within_parent() -> None:
     assert event2.next == event3
     assert event3.prev == event2
     assert event3.next is None
+
+
+def test_modifying_event_emits_modification_event_in_parent() -> None:
+    """Test that modifying an event emits a modification event in the context
+    of its parent list.
+    """
+    subscriber = Mock()
+    event = AssEvent()
+    events = AssEventList()
+    events.append(event)
+    events.items_modified.subscribe(subscriber)
+    event.text = "new text"
+    subscriber.assert_called_once()

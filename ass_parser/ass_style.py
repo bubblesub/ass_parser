@@ -4,6 +4,10 @@ from typing import TYPE_CHECKING, Optional
 
 from ass_parser.ass_color import AssColor
 from ass_parser.observable_object import ObservableObject
+from ass_parser.observable_sequence import (
+    ItemModificationEvent,
+    ObservableSequenceChangeEvent,
+)
 
 if TYPE_CHECKING:
     from ass_parser.ass_style_list import AssStyleList  # pragma: no coverage
@@ -53,12 +57,14 @@ class AssStyle(ObservableObject):
 
         :param factor: scale to scale self by
         """
+        self.begin_update()
         self.font_size = int(self.font_size * factor)
         self.outline *= factor
         self.shadow *= factor
         self.margin_left = int(self.margin_left * factor)
         self.margin_right = int(self.margin_right * factor)
         self.margin_vertical = int(self.margin_vertical * factor)
+        self.end_update()
 
     @property
     def parent(self) -> Optional["AssStyleList"]:
@@ -79,6 +85,15 @@ class AssStyle(ObservableObject):
         if self._index is None:
             raise ValueError("AssStyle does not belong to any AssStyleList")
         return self._index
+
+    def _after_change(self) -> None:
+        """Emit item modified event in the parent list."""
+        super()._after_change()
+        if self.parent is not None:
+            self.parent.items_modified.emit(
+                ItemModificationEvent(index=self.index, item=self)
+            )
+            self.parent.changed.emit(ObservableSequenceChangeEvent())
 
     def __copy__(self) -> "AssStyle":
         """Duplicate self.

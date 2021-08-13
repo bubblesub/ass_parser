@@ -1,5 +1,6 @@
 """Tests for the AssStyleList class."""
 from copy import copy, deepcopy
+from unittest.mock import Mock
 
 import pytest
 
@@ -102,3 +103,16 @@ def test_ass_style_list_removal_reindex() -> None:
     with pytest.raises(ValueError):
         style2.index  # pylint: disable=pointless-statement
     assert style3.index == 1
+
+
+def test_modifying_style_emits_modification_event_in_parent() -> None:
+    """Test that modifying an style emits a modification event in the context
+    of its parent list.
+    """
+    subscriber = Mock()
+    style = AssStyle(name="dummy style")
+    styles = AssStyleList()
+    styles.append(style)
+    styles.items_modified.subscribe(subscriber)
+    style.scale(3)
+    subscriber.assert_called_once()
