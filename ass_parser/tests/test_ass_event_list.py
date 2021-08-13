@@ -1,4 +1,5 @@
 """Tests for the AssEventList class."""
+import pickle
 from copy import copy, deepcopy
 from unittest.mock import Mock
 
@@ -133,3 +134,15 @@ def test_modifying_event_emits_modification_event_in_parent() -> None:
     events.items_modified.subscribe(subscriber)
     event.text = "new text"
     subscriber.assert_called_once()
+
+
+def test_pickling_preserves_event_parenthood() -> None:
+    """Test that pickling and unpickling a event list preserves the parenthood
+    relationship with its children.
+    """
+    event = AssEvent()
+    events = AssEventList()
+    events.append(event)
+    new_events = pickle.loads(pickle.dumps(events))
+    assert new_events[0].parent == new_events
+    assert new_events[0].parent != events

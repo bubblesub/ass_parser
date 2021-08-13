@@ -1,4 +1,5 @@
 """Tests for the AssStyleList class."""
+import pickle
 from copy import copy, deepcopy
 from unittest.mock import Mock
 
@@ -116,3 +117,15 @@ def test_modifying_style_emits_modification_event_in_parent() -> None:
     styles.items_modified.subscribe(subscriber)
     style.scale(3)
     subscriber.assert_called_once()
+
+
+def test_pickling_preserves_style_parenthood() -> None:
+    """Test that pickling and unpickling a style list preserves the parenthood
+    relationship with its children.
+    """
+    style = AssStyle(name="dummy style")
+    styles = AssStyleList()
+    styles.append(style)
+    new_styles = pickle.loads(pickle.dumps(styles))
+    assert new_styles[0].parent == new_styles
+    assert new_styles[0].parent != styles
