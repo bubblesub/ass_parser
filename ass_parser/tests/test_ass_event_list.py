@@ -66,3 +66,28 @@ def test_deep_copying_event_list() -> None:
     events_copy = deepcopy(events)
     assert events[0].parent == events
     assert events_copy[0].parent == events_copy
+
+
+def test_ass_event_list_append_reindex() -> None:
+    """Test that event insertion populates the event.index property."""
+    event1 = AssEvent()
+    event2 = AssEvent()
+    events = AssEventList()
+    events.append(event2)
+    events.insert(0, event1)
+    assert event1.index == 0
+    assert event2.index == 1
+
+
+def test_ass_event_list_removal_reindex() -> None:
+    """Test that event removal populates the event.index property."""
+    event1 = AssEvent()
+    event2 = AssEvent()
+    event3 = AssEvent()
+    events = AssEventList()
+    events.extend([event1, event2, event3])
+    del events[event2.index]
+    assert event1.index == 0
+    with pytest.raises(ValueError):
+        event2.index  # pylint: disable=pointless-statement
+    assert event3.index == 1

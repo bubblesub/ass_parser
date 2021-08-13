@@ -47,6 +47,8 @@ class AssStyle(ObservableObject):
 
     parent: Optional["AssStyleList"] = None
 
+    _index: Optional[int] = None
+
     def scale(self, factor: float) -> None:
         """Scale self by the given factor.
 
@@ -58,6 +60,16 @@ class AssStyle(ObservableObject):
         self.margin_left = int(self.margin_left * factor)
         self.margin_right = int(self.margin_right * factor)
         self.margin_vertical = int(self.margin_vertical * factor)
+
+    @property
+    def index(self) -> int:
+        """Return style index within its parent list.
+
+        :return: index
+        """
+        if self._index is None:
+            raise ValueError("AssStyle does not belong to any AssStyleList")
+        return self._index
 
     def __copy__(self) -> "AssStyle":
         """Duplicate self.

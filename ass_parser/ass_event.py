@@ -27,6 +27,7 @@ class AssEvent(ObservableObject):
 
     parent: Optional["AssEventList"] = None
 
+    _index: Optional[int] = None
     _note = ""
     _text = ""
 
@@ -61,6 +62,16 @@ class AssEvent(ObservableObject):
         :param value: new note
         """
         self._note = value.replace("\n", "\\N")
+
+    @property
+    def index(self) -> int:
+        """Return event index within its parent list.
+
+        :return: index
+        """
+        if self._index is None:
+            raise ValueError("AssEvent does not belong to any AssEventList")
+        return self._index
 
     @property
     def duration(self) -> int:

@@ -77,3 +77,28 @@ def test_deep_copying_style_list() -> None:
     styles_copy = deepcopy(styles)
     assert styles[0].parent == styles
     assert styles_copy[0].parent == styles_copy
+
+
+def test_ass_style_list_append_reindex() -> None:
+    """Test that style insertion populates the style.index property."""
+    style1 = AssStyle(name="dummy style 1")
+    style2 = AssStyle(name="dummy style 2")
+    styles = AssStyleList()
+    styles.append(style2)
+    styles.insert(0, style1)
+    assert style1.index == 0
+    assert style2.index == 1
+
+
+def test_ass_style_list_removal_reindex() -> None:
+    """Test that style removal populates the style.index property."""
+    style1 = AssStyle(name="dummy style 1")
+    style2 = AssStyle(name="dummy style 2")
+    style3 = AssStyle(name="dummy style 3")
+    styles = AssStyleList()
+    styles.extend([style1, style2, style3])
+    del styles[style2.index]
+    assert style1.index == 0
+    with pytest.raises(ValueError):
+        style2.index  # pylint: disable=pointless-statement
+    assert style3.index == 1
