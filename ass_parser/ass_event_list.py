@@ -20,12 +20,12 @@ class AssEventList(ObservableSequence[AssEvent]):
         for item in event.items:
             if item.parent is not None:
                 raise TypeError("AssEvent belongs to another AssEventList")
-            item.parent = self
+            item._parent = self  # pylint: disable=protected-access
         self._reindex()
 
     def _on_items_removal(self, event: ItemRemovalEvent[AssEvent]) -> None:
         for item in event.items:
-            item.parent = None
+            item._parent = None  # pylint: disable=protected-access
             item._index = None  # pylint: disable=protected-access
         self._reindex()
 

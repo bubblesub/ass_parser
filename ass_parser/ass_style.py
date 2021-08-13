@@ -45,8 +45,7 @@ class AssStyle(ObservableObject):
     margin_vertical: int = 20
     encoding: int = 1
 
-    parent: Optional["AssStyleList"] = None
-
+    _parent: Optional["AssStyleList"] = None
     _index: Optional[int] = None
 
     def scale(self, factor: float) -> None:
@@ -60,6 +59,14 @@ class AssStyle(ObservableObject):
         self.margin_left = int(self.margin_left * factor)
         self.margin_right = int(self.margin_right * factor)
         self.margin_vertical = int(self.margin_vertical * factor)
+
+    @property
+    def parent(self) -> Optional["AssStyleList"]:
+        """Return parent list.
+
+        :return: parent list
+        """
+        return self._parent
 
     @property
     def index(self) -> int:
@@ -83,7 +90,7 @@ class AssStyle(ObservableObject):
             {
                 key: value
                 for key, value in self.__dict__.items()
-                if not callable(value) and key != "parent"
+                if not callable(value) and key != "_parent"
             }
         )
         return ret

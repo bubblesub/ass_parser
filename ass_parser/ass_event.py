@@ -25,8 +25,7 @@ class AssEvent(ObservableObject):
     margin_vertical: int = 0
     is_comment: bool = False
 
-    parent: Optional["AssEventList"] = None
-
+    _parent: Optional["AssEventList"] = None
     _index: Optional[int] = None
     _note = ""
     _text = ""
@@ -64,6 +63,14 @@ class AssEvent(ObservableObject):
         self._note = value.replace("\n", "\\N")
 
     @property
+    def parent(self) -> Optional["AssEventList"]:
+        """Return parent list.
+
+        :return: parent list
+        """
+        return self._parent
+
+    @property
     def index(self) -> int:
         """Return event index within its parent list.
 
@@ -93,7 +100,7 @@ class AssEvent(ObservableObject):
             {
                 key: value
                 for key, value in self.__dict__.items()
-                if not callable(value) and key != "parent"
+                if not callable(value) and key != "_parent"
             }
         )
         return ret
