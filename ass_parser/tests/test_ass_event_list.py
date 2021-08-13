@@ -91,3 +91,25 @@ def test_ass_event_list_removal_reindex() -> None:
     with pytest.raises(ValueError):
         event2.index  # pylint: disable=pointless-statement
     assert event3.index == 1
+
+
+def test_prev_next_ass_event_without_parent() -> None:
+    """Test AssEvent.prev and AssEvent.next property without a parent list."""
+    event = AssEvent()
+    assert event.prev is None
+    assert event.next is None
+
+
+def test_prev_next_ass_event_within_parent() -> None:
+    """Test AssEvent.prev and AssEvent.next property within a parent list."""
+    event1 = AssEvent()
+    event2 = AssEvent()
+    event3 = AssEvent()
+    events = AssEventList()
+    events.extend([event1, event2, event3])
+    assert event1.prev is None
+    assert event1.next == event2
+    assert event2.prev == event1
+    assert event2.next == event3
+    assert event3.prev == event2
+    assert event3.next is None

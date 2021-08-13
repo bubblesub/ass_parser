@@ -81,6 +81,30 @@ class AssEvent(ObservableObject):
         return self._index
 
     @property
+    def prev(self) -> Optional["AssEvent"]:
+        """Return previous event from its parent list.
+
+        :return: previous event if has parent list, None otherwise
+        """
+        if not self.parent:
+            return None
+        if self.index == 0:
+            return None
+        return self.parent[self.index - 1]
+
+    @property
+    def next(self) -> Optional["AssEvent"]:
+        """Return next event from its parent list.
+
+        :return: next subtitle if has parent list, None otherwise
+        """
+        if not self.parent:
+            return None
+        if self.index == len(self.parent) - 1:
+            return None
+        return self.parent[self.index + 1]
+
+    @property
     def duration(self) -> int:
         """Return subtitle duration in milliseconds.
 
