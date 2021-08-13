@@ -10,7 +10,11 @@ TItem = TypeVar("TItem")
 
 @dataclass
 class ItemRemovalEvent(Event, Generic[TItem]):
-    """Observable sequence item removal event."""
+    """Observable sequence item removal event.
+
+    Broadcast by ObservableSequence after and before an item was removed from
+    it.
+    """
 
     index: Union[int, slice]
     items: list[TItem]
@@ -42,6 +46,11 @@ class ItemModificationEvent(Event, Generic[TItem]):
     item: TItem
 
 
+@dataclass
+class ObservableSequenceChangeEvent(Event):
+    """Generic observable sequence change event."""
+
+
 class ObservableSequence(MutableSequence[TItem]):
     """Observable sequence - a sequence that lets consumers to subscribe to
     collection change events.
@@ -52,6 +61,7 @@ class ObservableSequence(MutableSequence[TItem]):
     items_removed = Observable[ItemRemovalEvent[TItem]]()
     items_inserted = Observable[ItemInsertionEvent[TItem]]()
     items_modified = Observable[ItemModificationEvent[TItem]]()
+    changed = Observable[ObservableSequenceChangeEvent]()
 
     def __init__(self) -> None:
         """Initialize self."""
@@ -92,6 +102,7 @@ class ObservableSequence(MutableSequence[TItem]):
                 index=index, items=values, is_committed=True
             )
         )
+        self.changed.emit(ObservableSequenceChangeEvent())
 
     @overload
     def __setitem__(self, index: int, value: TItem) -> None:
@@ -144,6 +155,7 @@ class ObservableSequence(MutableSequence[TItem]):
                 index=index, items=new_values, is_committed=True
             )
         )
+        self.changed.emit(ObservableSequenceChangeEvent())
 
     def insert(self, index: int, value: TItem) -> None:
         values = [value]
@@ -158,6 +170,7 @@ class ObservableSequence(MutableSequence[TItem]):
                 index=index, items=values, is_committed=True
             )
         )
+        self.changed.emit(ObservableSequenceChangeEvent())
 
     def clear(self) -> None:
         values = self._data[:]
@@ -172,6 +185,7 @@ class ObservableSequence(MutableSequence[TItem]):
                 index=slice(-1), items=values, is_committed=True
             )
         )
+        self.changed.emit(ObservableSequenceChangeEvent())
 
     def extend(self, values: Iterable[TItem]) -> None:
         values = list(values)
@@ -187,3 +201,4 @@ class ObservableSequence(MutableSequence[TItem]):
                 index=slice(-1), items=values, is_committed=True
             )
         )
+        self.changed.emit(ObservableSequenceChangeEvent())

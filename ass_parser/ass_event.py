@@ -3,7 +3,10 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING, Optional
 
 from ass_parser.observable_object import ObservableObject
-from ass_parser.observable_sequence import ItemModificationEvent
+from ass_parser.observable_sequence import (
+    ItemModificationEvent,
+    ObservableSequenceChangeEvent,
+)
 
 if TYPE_CHECKING:
     from ass_parser.ass_event_list import AssEventList  # pragma: no coverage
@@ -132,6 +135,7 @@ class AssEvent(ObservableObject):
             self.parent.items_modified.emit(
                 ItemModificationEvent(index=self.index, item=self)
             )
+            self.parent.changed.emit(ObservableSequenceChangeEvent())
 
     def __copy__(self) -> "AssEvent":
         """Duplicate self.

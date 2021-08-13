@@ -8,7 +8,7 @@ TItem = TypeVar("TItem")
 
 
 @dataclass
-class ObjectChangeEvent(Event):
+class ObservableObjectChangeEvent(Event):
     """Observable object property change event."""
 
 
@@ -17,7 +17,7 @@ class ObservableObject:
     events.
     """
 
-    changed = Observable[ObjectChangeEvent]()
+    changed = Observable[ObservableObjectChangeEvent]()
 
     def __setattr__(self, prop: str, new_value: Any) -> None:
         """Set attribute.
@@ -92,7 +92,7 @@ class ObservableObject:
 
     def _after_change(self) -> None:
         """Called after class properties have changed."""
-        self.changed.emit(ObjectChangeEvent())
+        self.changed.emit(ObservableObjectChangeEvent())
 
     _dirty: bool = False
     _setattr_impl: Callable[

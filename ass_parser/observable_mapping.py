@@ -10,7 +10,7 @@ TValue = TypeVar("TValue")
 
 
 @dataclass
-class ItemChangeEvent(Event):
+class ObservableMappingChangeEvent(Event):
     """Observable mapping item change event."""
 
 
@@ -19,7 +19,7 @@ class ObservableMapping(MutableMapping[TKey, TValue]):
     collection change events.
     """
 
-    changed = Observable[ItemChangeEvent]()
+    changed = Observable[ObservableMappingChangeEvent]()
 
     def __init__(self) -> None:
         """Initialize self."""
@@ -43,7 +43,7 @@ class ObservableMapping(MutableMapping[TKey, TValue]):
         """
         if self._data.get(key) != value:
             self._data[key] = value
-            self.changed.emit(ItemChangeEvent())
+            self.changed.emit(ObservableMappingChangeEvent())
 
     def __delitem__(self, key: TKey) -> None:
         """Remove the specified key.
@@ -52,7 +52,7 @@ class ObservableMapping(MutableMapping[TKey, TValue]):
         """
         if key in self._data:
             del self._data[key]
-            self.changed.emit(ItemChangeEvent())
+            self.changed.emit(ObservableMappingChangeEvent())
 
     def __len__(self) -> int:
         """Return length of the contents.
@@ -71,7 +71,7 @@ class ObservableMapping(MutableMapping[TKey, TValue]):
     def clear(self) -> None:
         """Clear conents."""
         self._data.clear()
-        self.changed.emit(ItemChangeEvent())
+        self.changed.emit(ObservableMappingChangeEvent())
 
     @overload
     def update(
@@ -105,4 +105,4 @@ class ObservableMapping(MutableMapping[TKey, TValue]):
                 self._data[key] = value
         for key, value in kwargs.items():
             self._data[cast(TKey, key)] = value
-        self.changed.emit(ItemChangeEvent())
+        self.changed.emit(ObservableMappingChangeEvent())
