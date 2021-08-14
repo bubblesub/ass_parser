@@ -1,11 +1,11 @@
-"""AssKeyValueSection definition."""
+"""AssKeyValueMapping definition."""
 from ass_parser.ass_sections.ass_base_section import AssBaseSection
 from ass_parser.errors import CorruptAssLineError
 from ass_parser.observable_mapping_mixin import ObservableMappingMixin
 
 
-class AssKeyValueSection(ObservableMappingMixin[str, str], AssBaseSection):
-    """ASS key-value section."""
+class AssKeyValueMapping(ObservableMappingMixin[str, str], AssBaseSection):
+    """ASS key-value mapping section."""
 
     def consume_ass_body_lines(self, lines: list[tuple[int, str]]) -> None:
         """Populate self from ASS text representation of this section,

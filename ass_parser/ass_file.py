@@ -5,7 +5,7 @@ from typing import IO
 from ass_parser.ass_sections import (
     AssBaseSection,
     AssEventList,
-    AssKeyValueSection,
+    AssKeyValueMapping,
     AssScriptInfo,
     AssStringTableSection,
     AssStyleList,
@@ -87,6 +87,6 @@ class AssFile:
                 section.consume_ass_lines(section_info.lines)
                 self.extra_sections.append(section)
             else:
-                section = AssKeyValueSection(name=section_info.name)
+                section = AssKeyValueMapping(name=section_info.name)
                 section.consume_ass_lines(section_info.lines)
                 self.extra_sections.append(section)

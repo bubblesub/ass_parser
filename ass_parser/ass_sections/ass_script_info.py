@@ -1,9 +1,9 @@
 """AssScriptInfo definition."""
-from ass_parser.ass_sections.ass_key_value_section import AssKeyValueSection
+from ass_parser.ass_sections.ass_key_value_mapping import AssKeyValueMapping
 from ass_parser.ass_sections.const import SCRIPT_INFO_SECTION_NAME
 
 
-class AssScriptInfo(AssKeyValueSection):
+class AssScriptInfo(AssKeyValueMapping):
     """ASS script info."""
 
     def __init__(self) -> None:
