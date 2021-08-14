@@ -16,7 +16,7 @@ class AssStringTableSection(
     def consume_ass_table_row(
         self, item_type: str, item: dict[str, str]
     ) -> None:
-        """Populate self from a dict created by parsing an input ASS line.
+        """Populate self from a dict created by parsing an ASS line.
 
         :param item_type: the part before the colon
         :param item: the dictified ASS line

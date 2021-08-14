@@ -8,8 +8,8 @@ class AssKeyValueSection(ObservableMappingMixin[str, str], AssBaseSection):
     """ASS key-value section."""
 
     def consume_ass_body_lines(self, lines: list[tuple[int, str]]) -> None:
-        """Populate self from .ass lines representing this section, excluding
-        the header.
+        """Populate self from ASS text representation of this section,
+        excluding the ASS header line.
 
         :param lines: list of tuples (line_num, line)
         """

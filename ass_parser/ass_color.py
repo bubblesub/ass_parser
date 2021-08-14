@@ -12,7 +12,7 @@ class AssColor(NamedTuple):
 
     @staticmethod
     def from_ass_string(text: str) -> "AssColor":
-        """Deserialize .ass text reperesentation to an AssColor.
+        """Deserialize ASS text reperesentation to an AssColor.
 
         :param text: text to parse
         :return: parsed AssColor

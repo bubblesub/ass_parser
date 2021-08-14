@@ -27,7 +27,7 @@ class AssBaseSection:
     def from_ass_string(
         cls: type[TAssConcreteSection], source: str
     ) -> TAssConcreteSection:
-        """Create an instance of self from an .ass string.
+        """Create an instance of self from an ASS text representation.
 
         :param source: string to parse
         :return: parsed self
@@ -43,8 +43,8 @@ class AssBaseSection:
         return result
 
     def consume_ass_lines(self, lines: list[tuple[int, str]]) -> None:
-        """Populate self from .ass lines representing this section including
-        the header.
+        """Populate self from ASS text representation of this section,
+        including the ASS header line.
 
         :param lines: list of tuples (line_num, line)
         """
@@ -60,8 +60,8 @@ class AssBaseSection:
         self.consume_ass_body_lines(lines[1:])
 
     def consume_ass_body_lines(self, lines: list[tuple[int, str]]) -> None:
-        """Populate self from .ass lines representing this section, excluding
-        the header.
+        """Populate self from ASS text representation of this section,
+        excluding the ASS header line.
 
         :param lines: list of tuples (line_num, line)
         """

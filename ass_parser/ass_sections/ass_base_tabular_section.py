@@ -18,8 +18,8 @@ class AssBaseTabularSection(
     """
 
     def consume_ass_body_lines(self, lines: list[tuple[int, str]]) -> None:
-        """Populate self from .ass lines representing this section, excluding
-        the header.
+        """Populate self from ASS text representation of this section,
+        excluding the ASS header line.
 
         :param lines: list of tuples (line_num, line)
         """
@@ -64,9 +64,9 @@ class AssBaseTabularSection(
     def consume_ass_table_row(
         self, item_type: str, item: dict[str, str]
     ) -> None:
-        """Populate self from a dict created by parsing an input .ass line.
+        """Populate self from a dict created by parsing an ASS line.
 
         :param item_type: the part before the colon
-        :param item: the dictified .ass line
+        :param item: the dictified ASS line
         """
         raise NotImplementedError("not implemented")  # pragma: no cover

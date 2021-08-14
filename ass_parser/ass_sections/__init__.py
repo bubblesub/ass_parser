@@ -1,7 +1,7 @@
 """ASS sections definitions.
 
-Each section is capable of serializing and deserializing itself to an .ass text
-chunk.
+Each section is capable of serializing and deserializing itself to an ASS text
+representation of itself.
 """
 from .ass_base_section import AssBaseSection
 from .ass_base_tabular_section import AssBaseTabularSection

@@ -14,7 +14,7 @@ def unescape_ass_tag(text: str) -> str:
 
 
 def timestamp_to_ms(text: str) -> int:
-    """Parse .ass text representation of time to milliseconds.
+    """Parse ASS text representation of time to milliseconds.
 
     :param text: text to parse
     :return: parsed time in number of milliseconds

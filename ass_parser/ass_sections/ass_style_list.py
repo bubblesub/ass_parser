@@ -61,10 +61,10 @@ class AssStyleList(
     def consume_ass_table_row(
         self, item_type: str, item: dict[str, str]
     ) -> None:
-        """Populate self from a dict created by parsing an input .ass line.
+        """Populate self from a dict created by parsing an ASS line.
 
         :param item_type: the part before the colon
-        :param item: the dictified .ass line
+        :param item: the dictified ASS line
         """
         if item_type != "Style":
             raise ValueError(f'unknown style type: "{item_type}"')
