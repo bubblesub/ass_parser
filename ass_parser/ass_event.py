@@ -9,7 +9,7 @@ from ass_parser.observable_sequence_mixin import (
 )
 
 if TYPE_CHECKING:
-    from ass_parser.ass_event_list import AssEventList  # pragma: no coverage
+    from ass_parser.ass_sections import AssEventList  # pragma: no coverage
 
 
 @dataclass

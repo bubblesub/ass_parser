@@ -6,7 +6,7 @@ from unittest.mock import Mock
 import pytest
 
 from ass_parser.ass_event import AssEvent
-from ass_parser.ass_event_list import AssEventList
+from ass_parser.ass_sections.ass_event_list import AssEventList
 
 
 def test_ass_event_list_append_sets_parent() -> None:

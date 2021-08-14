@@ -5,8 +5,8 @@ from unittest.mock import Mock
 
 import pytest
 
+from ass_parser.ass_sections.ass_style_list import AssStyleList
 from ass_parser.ass_style import AssStyle
-from ass_parser.ass_style_list import AssStyleList
 
 
 def test_ass_style_list_append_sets_parent() -> None:

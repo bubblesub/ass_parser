@@ -1,7 +1,7 @@
 """Tests for the AssMeta class."""
 from unittest.mock import Mock
 
-from ass_parser.ass_meta import AssMeta
+from ass_parser.ass_sections.ass_meta import AssMeta
 
 
 def test_ass_meta_emits_change_event() -> None:

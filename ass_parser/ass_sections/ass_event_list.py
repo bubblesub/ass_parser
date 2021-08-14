@@ -1,7 +1,6 @@
-"""ASS styles container."""
-from typing import Optional
-
-from ass_parser.ass_style import AssStyle
+"""ASS events container."""
+from ass_parser.ass_event import AssEvent
+from ass_parser.ass_sections.ass_base_section import AssBaseSection
 from ass_parser.observable_sequence_mixin import (
     ItemInsertionEvent,
     ItemRemovalEvent,
@@ -9,8 +8,8 @@ from ass_parser.observable_sequence_mixin import (
 )
 
 
-class AssStyleList(ObservableSequenceMixin[AssStyle]):
-    """ASS styles container."""
+class AssEventList(ObservableSequenceMixin[AssEvent], AssBaseSection):
+    """ASS events container."""
 
     def __init__(self) -> None:
         """Initialize self."""
@@ -18,25 +17,14 @@ class AssStyleList(ObservableSequenceMixin[AssStyle]):
         self.items_inserted.subscribe(self._on_items_insertion)
         self.items_removed.subscribe(self._on_items_removal)
 
-    def get_by_name(self, name: str) -> Optional[AssStyle]:
-        """Retrieve style by its name.
-
-        :param name: name of the style to look for
-        :return: style instance if one was found, None otherwise
-        """
-        for style in self._data:
-            if style.name == name:
-                return style
-        return None
-
-    def _on_items_insertion(self, event: ItemInsertionEvent[AssStyle]) -> None:
+    def _on_items_insertion(self, event: ItemInsertionEvent[AssEvent]) -> None:
         for item in event.items:
             if item.parent is not None:
-                raise TypeError("AssStyle belongs to another AssStyleList")
+                raise TypeError("AssEvent belongs to another AssEventList")
             item._parent = self  # pylint: disable=protected-access
         self._reindex()
 
-    def _on_items_removal(self, event: ItemRemovalEvent[AssStyle]) -> None:
+    def _on_items_removal(self, event: ItemRemovalEvent[AssEvent]) -> None:
         for item in event.items:
             item._parent = None  # pylint: disable=protected-access
             item._index = None  # pylint: disable=protected-access
