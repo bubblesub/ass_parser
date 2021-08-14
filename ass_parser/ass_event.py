@@ -1,4 +1,4 @@
-"""ASS event (subtitle, comment etc.)."""
+"""AssEvent definition."""
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Optional
 

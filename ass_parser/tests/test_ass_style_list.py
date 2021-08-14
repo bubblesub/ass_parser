@@ -7,6 +7,7 @@ import pytest
 
 from ass_parser.ass_sections.ass_style_list import AssStyleList
 from ass_parser.ass_style import AssStyle
+from ass_parser.errors import CorruptAssError
 
 
 def test_ass_style_list_append_sets_parent() -> None:
@@ -129,3 +130,65 @@ def test_pickling_preserves_style_parenthood() -> None:
     new_styles = pickle.loads(pickle.dumps(styles))
     assert new_styles[0].parent == new_styles
     assert new_styles[0].parent != styles
+
+
+def test_from_ass_string() -> None:
+    """Test AssStringTableSection.from_ass_string function behavior."""
+    # pylint: disable=line-too-long
+    result = AssStyleList.from_ass_string(
+        """[Test Section]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Rubik,24,&H0AE9F4F4,&H000000FF,&H00101010,&H7F202020,-1,0,0,0,100,125,0,0,1,2.5,0,2,15,15,15,1
+"""
+    )
+    assert result.name == "Test Section"
+    assert len(result) == 1
+    assert result[0].parent == result
+
+    assert result[0].name == "Default"
+    assert result[0].font_name == "Rubik"
+    assert result[0].font_size == 24
+    assert result[0].primary_color.red == 0xF4
+    assert result[0].primary_color.green == 0xF4
+    assert result[0].primary_color.blue == 0xE9
+    assert result[0].primary_color.alpha == 0x0A
+    assert result[0].secondary_color.red == 0xFF
+    assert result[0].secondary_color.green == 0x00
+    assert result[0].secondary_color.blue == 0x00
+    assert result[0].secondary_color.alpha == 0x00
+    assert result[0].outline_color.red == 0x10
+    assert result[0].outline_color.green == 0x10
+    assert result[0].outline_color.blue == 0x10
+    assert result[0].outline_color.alpha == 0x00
+    assert result[0].back_color.red == 0x20
+    assert result[0].back_color.green == 0x20
+    assert result[0].back_color.blue == 0x20
+    assert result[0].back_color.alpha == 0x7F
+    assert result[0].bold is True
+    assert result[0].italic is False
+    assert result[0].underline is False
+    assert result[0].strike_out is False
+    assert result[0].scale_x == 100.0
+    assert result[0].scale_y == 125.0
+    assert result[0].spacing == 0.0
+    assert result[0].angle == 0.0
+    assert result[0].border_style == 1
+    assert result[0].outline == 2.5
+    assert result[0].shadow == 0.0
+    assert result[0].alignment == 2
+    assert result[0].margin_left == 15
+    assert result[0].margin_right == 15
+    assert result[0].margin_vertical == 15
+    assert result[0].encoding == 1
+
+
+def test_from_ass_string_unknown_style() -> None:
+    """Test that unknown styles raise an error."""
+    # pylint: disable=line-too-long
+    with pytest.raises(CorruptAssError):
+        AssStyleList.from_ass_string(
+            """[Test Section]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Unknown: Default,Rubik,24,&H0AE9F4F4,&H000000FF,&H00101010,&H7F202020,-1,0,0,0,100,125,0,0,1,2.5,0,2,15,15,15,1
+"""
+        )

@@ -1,7 +1,11 @@
-"""ASS styles container."""
+"""AssStyleList definition."""
 from typing import Optional
 
-from ass_parser.ass_sections.ass_base_section import AssBaseSection
+from ass_parser.ass_color import AssColor
+from ass_parser.ass_sections.ass_base_tabular_section import (
+    AssBaseTabularSection,
+)
+from ass_parser.ass_sections.const import STYLES_SECTION_NAME
 from ass_parser.ass_style import AssStyle
 from ass_parser.observable_sequence_mixin import (
     ItemInsertionEvent,
@@ -10,12 +14,14 @@ from ass_parser.observable_sequence_mixin import (
 )
 
 
-class AssStyleList(ObservableSequenceMixin[AssStyle], AssBaseSection):
+class AssStyleList(
+    ObservableSequenceMixin[AssStyle], AssBaseTabularSection[AssStyle]
+):
     """ASS styles container."""
 
-    def __init__(self) -> None:
+    def __init__(self, name: str = STYLES_SECTION_NAME) -> None:
         """Initialize self."""
-        super().__init__()
+        super().__init__(name=name)
         self.items_inserted.subscribe(self._on_items_insertion)
         self.items_removed.subscribe(self._on_items_removal)
 
@@ -46,3 +52,44 @@ class AssStyleList(ObservableSequenceMixin[AssStyle], AssBaseSection):
     def _reindex(self) -> None:
         for i, item in enumerate(self._data):
             item._index = i  # pylint: disable=protected-access
+
+    def consume_ass_table_row(
+        self, item_type: str, item: dict[str, str]
+    ) -> None:
+        """Populate self from a dict created by parsing an input .ass line.
+
+        :param item_type: the part before the colon
+        :param item: the dictified .ass line
+        """
+        if item_type != "Style":
+            raise ValueError(f'unknown style type: "{item_type}"')
+
+        self.append(
+            AssStyle(
+                name=item["Name"],
+                font_name=item["Fontname"],
+                font_size=int(float(item["Fontsize"])),
+                primary_color=AssColor.from_ass_string(item["PrimaryColour"]),
+                secondary_color=AssColor.from_ass_string(
+                    item["SecondaryColour"]
+                ),
+                outline_color=AssColor.from_ass_string(item["OutlineColour"]),
+                back_color=AssColor.from_ass_string(item["BackColour"]),
+                bold=item["Bold"] == "-1",
+                italic=item["Italic"] == "-1",
+                underline=item["Underline"] == "-1",
+                strike_out=item["StrikeOut"] == "-1",
+                scale_x=float(item["ScaleX"]),
+                scale_y=float(item["ScaleY"]),
+                spacing=float(item["Spacing"]),
+                angle=float(item["Angle"]),
+                border_style=int(item["BorderStyle"]),
+                outline=float(item["Outline"]),
+                shadow=float(item["Shadow"]),
+                alignment=int(item["Alignment"]),
+                margin_left=int(float(item["MarginL"])),
+                margin_right=int(float(item["MarginR"])),
+                margin_vertical=int(float(item["MarginV"])),
+                encoding=int(item["Encoding"]),
+            )
+        )

@@ -7,6 +7,7 @@ import pytest
 
 from ass_parser.ass_event import AssEvent
 from ass_parser.ass_sections.ass_event_list import AssEventList
+from ass_parser.errors import CorruptAssError
 
 
 def test_ass_event_list_append_sets_parent() -> None:
@@ -146,3 +147,86 @@ def test_pickling_preserves_event_parenthood() -> None:
     new_events = pickle.loads(pickle.dumps(events))
     assert new_events[0].parent == new_events
     assert new_events[0].parent != events
+
+
+def test_default_section_name() -> None:
+    """Test that AssEventList.name defaults to a generic name."""
+    assert AssEventList().name == "Events"
+
+
+def test_from_ass_string() -> None:
+    """Test AssStringTableSection.from_ass_string function behavior."""
+    result = AssEventList.from_ass_string(
+        """[Test Section]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:08.71,0:00:10.95,Default,Manami,0,0,0,,Ayako!{NOTE:綾子}
+Dialogue: 1,0:00:13.94,0:00:15.61,Default,Ayako,1,2,3,Effect,Good morning...
+"""
+    )
+    assert result.name == "Test Section"
+    assert len(result) == 2
+    assert result[0].parent == result
+
+    assert result[0].layer == 0
+    assert result[0].start == 8710
+    assert result[0].end == 10950
+    assert result[0].style_name == "Default"
+    assert result[0].actor == "Manami"
+    assert result[0].margin_left == 0
+    assert result[0].margin_right == 0
+    assert result[0].margin_vertical == 0
+    assert result[0].text == "Ayako!"
+    assert result[0].note == "綾子"
+
+    assert result[1].layer == 1
+    assert result[1].start == 13940
+    assert result[1].end == 15610
+    assert result[1].style_name == "Default"
+    assert result[1].actor == "Ayako"
+    assert result[1].margin_left == 1
+    assert result[1].margin_right == 2
+    assert result[1].margin_vertical == 3
+    assert result[1].effect == "Effect"
+    assert result[1].text == "Good morning..."
+    assert result[1].note == ""
+
+
+def test_from_ass_string_refines_time() -> None:
+    """Test that {TIME:} tag refines times up to one centisecond."""
+    result = AssEventList.from_ass_string(
+        """[Test Section]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Comment: 0,0:00:13.94,0:00:15.61,,,0,0,0,,{TIME:13941,15619}
+"""
+    )
+    assert result[0].start == 13941
+    assert result[0].end == 15619
+
+
+def test_from_ass_string_does_not_refine_time_if_too_far_away() -> None:
+    """Test that {TIME:} tag does not refine times if bigger than one
+    centisecond.
+
+    This is because this tag is very custom and if someone edits the file with
+    an editor that does not support the TIME tag, the time written by that
+    editor should take priority.
+    """
+    result = AssEventList.from_ass_string(
+        """[Test Section]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Comment: 0,0:00:13.94,0:00:15.61,,,0,0,0,,{TIME:13950,15620}
+"""
+    )
+    assert result[0].start == 13940
+    assert result[0].end == 15610
+
+
+def test_from_ass_string_unknown_event() -> None:
+    """Test that unknown events raise an error."""
+    with pytest.raises(CorruptAssError):
+        AssEventList.from_ass_string(
+            """[Test Section]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Unknown: 0,0:00:13.94,0:00:15.61,,,0,0,0,,{TIME:13941,15619}
+"""
+        )
