@@ -8,14 +8,14 @@ class DummyMapping(ObservableMappingMixin[str, str]):
     """Test ObservableMappingMixin implementation."""
 
 
-def test_ass_meta_get_set() -> None:
+def test_get_set() -> None:
     """Test that basic attribute getters and setters work."""
     mapping = DummyMapping()
     mapping["key"] = "value"
     assert mapping["key"] == "value"
 
 
-def test_ass_meta_get_set_emits_change_event() -> None:
+def test_get_set_emits_change_event() -> None:
     """Test that basic attribute getters and setters emits a change event."""
     subscriber = Mock()
     mapping = DummyMapping()
@@ -25,21 +25,21 @@ def test_ass_meta_get_set_emits_change_event() -> None:
     subscriber.assert_called_once()
 
 
-def test_ass_meta_len() -> None:
+def test_len() -> None:
     """Test that length returns contents size."""
     mapping = DummyMapping()
     mapping["key"] = "value"
     assert len(mapping) == 1
 
 
-def test_ass_meta_iter() -> None:
+def test_iter() -> None:
     """Test iterating over contents."""
     mapping = DummyMapping()
     mapping["key"] = "value"
     assert list(mapping) == ["key"]
 
 
-def test_ass_meta_delete() -> None:
+def test_delete() -> None:
     """Test that attribute removal works."""
     mapping = DummyMapping()
     mapping["key"] = "value"
@@ -47,7 +47,7 @@ def test_ass_meta_delete() -> None:
     assert "key" not in mapping
 
 
-def test_ass_meta_delete_change_event() -> None:
+def test_delete_change_event() -> None:
     """Test that attribute removal emits a change event."""
     subscriber = Mock()
     mapping = DummyMapping()
@@ -57,7 +57,7 @@ def test_ass_meta_delete_change_event() -> None:
     subscriber.assert_called_once()
 
 
-def test_ass_meta_clear() -> None:
+def test_clear() -> None:
     """Test that DummyMapping.clear() method clears the contents."""
     mapping = DummyMapping()
     mapping["key"] = "value"
@@ -65,7 +65,7 @@ def test_ass_meta_clear() -> None:
     assert "key" not in mapping
 
 
-def test_ass_meta_clear_emits_change_event() -> None:
+def test_clear_emits_change_event() -> None:
     """Test that DummyMapping.clear() method emits a change event."""
     subscriber = Mock()
     mapping = DummyMapping()
@@ -75,7 +75,7 @@ def test_ass_meta_clear_emits_change_event() -> None:
     subscriber.assert_called_once()
 
 
-def test_ass_meta_clear_emits_change_event_once() -> None:
+def test_clear_emits_change_event_once() -> None:
     """Test that DummyMapping.clear() method emits a change event once even if
     there are many items to remove.
     """
@@ -88,7 +88,7 @@ def test_ass_meta_clear_emits_change_event_once() -> None:
     subscriber.assert_called_once()
 
 
-def test_ass_meta_update() -> None:
+def test_update() -> None:
     """Test that DummyMapping.update() method updates the contents when passed
     a dict.
     """
@@ -98,7 +98,7 @@ def test_ass_meta_update() -> None:
     assert mapping["key2"] == "value2"
 
 
-def test_ass_meta_update_by_kwargs() -> None:
+def test_update_by_kwargs() -> None:
     """Test that DummyMapping.update() method updates the contents when passed
     kwargs.
     """
@@ -108,7 +108,7 @@ def test_ass_meta_update_by_kwargs() -> None:
     assert mapping["key2"] == "value2"
 
 
-def test_ass_meta_update_by_tuples() -> None:
+def test_update_by_tuples() -> None:
     """Test that DummyMapping.update() method updates the contents when passed
     a list of tuples.
     """
@@ -118,7 +118,7 @@ def test_ass_meta_update_by_tuples() -> None:
     assert mapping["key2"] == "value2"
 
 
-def test_ass_meta_update_emits_change_event() -> None:
+def test_update_emits_change_event() -> None:
     """Test that DummyMapping.update() method emits a change event."""
     subscriber = Mock()
     mapping = DummyMapping()
@@ -127,7 +127,7 @@ def test_ass_meta_update_emits_change_event() -> None:
     subscriber.assert_called_once()
 
 
-def test_ass_meta_update_emits_change_event_once() -> None:
+def test_update_emits_change_event_once() -> None:
     """Test that DummyMapping.update() method emits a change event once even if
     there are many items to set.
     """
