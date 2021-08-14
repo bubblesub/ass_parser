@@ -23,13 +23,18 @@ class AssEventList(
     def __init__(self, name: str = EVENTS_SECTION_NAME) -> None:
         """Initialize self."""
         super().__init__(name=name)
+        self.items_about_to_be_inserted.subscribe(self._before_items_insertion)
         self.items_inserted.subscribe(self._on_items_insertion)
         self.items_removed.subscribe(self._on_items_removal)
 
-    def _on_items_insertion(self, event: ItemInsertionEvent[AssEvent]) -> None:
+    @staticmethod
+    def _before_items_insertion(event: ItemInsertionEvent[AssEvent]) -> None:
         for item in event.items:
             if item.parent is not None:
                 raise TypeError("AssEvent belongs to another AssEventList")
+
+    def _on_items_insertion(self, event: ItemInsertionEvent[AssEvent]) -> None:
+        for item in event.items:
             item._parent = self  # pylint: disable=protected-access
         self._reindex()
 

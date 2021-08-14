@@ -22,6 +22,7 @@ class AssStyleList(
     def __init__(self, name: str = STYLES_SECTION_NAME) -> None:
         """Initialize self."""
         super().__init__(name=name)
+        self.items_about_to_be_inserted.subscribe(self._before_items_insertion)
         self.items_inserted.subscribe(self._on_items_insertion)
         self.items_removed.subscribe(self._on_items_removal)
 
@@ -36,10 +37,14 @@ class AssStyleList(
                 return style
         return None
 
-    def _on_items_insertion(self, event: ItemInsertionEvent[AssStyle]) -> None:
+    @staticmethod
+    def _before_items_insertion(event: ItemInsertionEvent[AssStyle]) -> None:
         for item in event.items:
             if item.parent is not None:
                 raise TypeError("AssStyle belongs to another AssStyleList")
+
+    def _on_items_insertion(self, event: ItemInsertionEvent[AssStyle]) -> None:
+        for item in event.items:
             item._parent = self  # pylint: disable=protected-access
         self._reindex()
 

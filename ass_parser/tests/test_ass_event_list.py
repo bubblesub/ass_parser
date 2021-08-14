@@ -36,6 +36,9 @@ def test_ass_event_list_double_parenthood() -> None:
     events1.append(event)
     with pytest.raises(TypeError):
         events2.append(event)
+    assert len(events1) == 1
+    assert len(events2) == 0
+    assert event.parent == events1
 
 
 def test_copying_event() -> None:

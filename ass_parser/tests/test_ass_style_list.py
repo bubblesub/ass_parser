@@ -36,6 +36,9 @@ def test_ass_style_list_double_parenthood() -> None:
     styles1.append(style)
     with pytest.raises(TypeError):
         styles2.append(style)
+    assert len(styles1) == 1
+    assert len(styles2) == 0
+    assert style.parent == styles1
 
 
 def test_ass_style_list_get_by_name() -> None:
