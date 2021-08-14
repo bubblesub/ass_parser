@@ -49,7 +49,7 @@ def test_ass_event_list_double_parenthood() -> None:
     assert event.parent == events1
 
 
-def test_copying_event() -> None:
+def test_ass_event_list_copying_event() -> None:
     """Test that copied events are detached from their original parents."""
     event = AssEvent()
     events = AssEventList()
@@ -58,7 +58,7 @@ def test_copying_event() -> None:
     assert event.parent == events
 
 
-def test_copying_event_list() -> None:
+def test_ass_event_list_copying_event_list() -> None:
     """Test that events copied with their parents are still linked to their
     original parent.
     """
@@ -70,7 +70,7 @@ def test_copying_event_list() -> None:
     assert events_copy[0].parent == events
 
 
-def test_deep_copying_event_list() -> None:
+def test_ass_event_list_deep_copying_event_list() -> None:
     """Test that events deep-copied with their parents are linked to their
     copied parent.
     """
@@ -113,14 +113,14 @@ def test_ass_event_list_removal_reindex() -> None:
     assert event3.number == 2
 
 
-def test_prev_next_ass_event_without_parent() -> None:
+def test_ass_event_list_prev_next_ass_event_without_parent() -> None:
     """Test AssEvent.prev and AssEvent.next property without a parent list."""
     event = AssEvent()
     assert event.prev is None
     assert event.next is None
 
 
-def test_prev_next_ass_event_within_parent() -> None:
+def test_ass_event_list_prev_next_ass_event_within_parent() -> None:
     """Test AssEvent.prev and AssEvent.next property within a parent list."""
     event1 = AssEvent()
     event2 = AssEvent()
@@ -135,7 +135,7 @@ def test_prev_next_ass_event_within_parent() -> None:
     assert event3.next is None
 
 
-def test_modifying_event_emits_modification_event_in_parent() -> None:
+def test_ass_event_list_modifying_event_emits_modification_event_in_parent() -> None:
     """Test that modifying an event emits a modification event in the context
     of its parent list.
     """
@@ -148,7 +148,7 @@ def test_modifying_event_emits_modification_event_in_parent() -> None:
     subscriber.assert_called_once()
 
 
-def test_pickling_preserves_event_parenthood() -> None:
+def test_ass_event_list_pickling_preserves_event_parenthood() -> None:
     """Test that pickling and unpickling a event list preserves the parenthood
     relationship with its children.
     """
@@ -160,12 +160,12 @@ def test_pickling_preserves_event_parenthood() -> None:
     assert new_events[0].parent != events
 
 
-def test_default_section_name() -> None:
+def test_ass_event_list_default_section_name() -> None:
     """Test that AssEventList.name defaults to a generic name."""
     assert AssEventList().name == "Events"
 
 
-def test_from_ass_string() -> None:
+def test_ass_event_list_from_ass_string() -> None:
     """Test AssStringTableSection.from_ass_string function behavior."""
     result = AssEventList.from_ass_string(
         """[Test Section]
@@ -202,7 +202,7 @@ Dialogue: 1,0:00:13.94,0:00:15.61,Default,Ayako,1,2,3,Effect,Good morning...
     assert result[1].note == ""
 
 
-def test_from_ass_string_refines_time() -> None:
+def test_ass_event_list_from_ass_string_refines_time() -> None:
     """Test that {TIME:} tag refines times up to one centisecond."""
     result = AssEventList.from_ass_string(
         """[Test Section]
@@ -214,7 +214,7 @@ Comment: 0,0:00:13.94,0:00:15.61,,,0,0,0,,{TIME:13941,15619}
     assert result[0].end == 15619
 
 
-def test_from_ass_string_does_not_refine_time_if_too_far_away() -> None:
+def test_ass_event_list_from_ass_string_does_not_refine_time_if_too_far_away() -> None:
     """Test that {TIME:} tag does not refine times if bigger than one
     centisecond.
 
@@ -232,7 +232,7 @@ Comment: 0,0:00:13.94,0:00:15.61,,,0,0,0,,{TIME:13950,15620}
     assert result[0].end == 15610
 
 
-def test_from_ass_string_unknown_event() -> None:
+def test_ass_event_list_from_ass_string_unknown_event() -> None:
     """Test that unknown events raise an error."""
     with pytest.raises(CorruptAssError):
         AssEventList.from_ass_string(
@@ -243,7 +243,7 @@ Unknown: 0,0:00:13.94,0:00:15.61,,,0,0,0,,{TIME:13941,15619}
         )
 
 
-def test_extending_with_another_list() -> None:
+def test_ass_event_list_extending_with_another_list() -> None:
     """Test extending a list with another list.
 
     This demonstrates how to extend a list while dealing with the ownership

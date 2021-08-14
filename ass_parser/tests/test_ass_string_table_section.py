@@ -7,7 +7,7 @@ from ass_parser.ass_sections.ass_string_table_section import (
 from ass_parser.errors import CorruptAssError
 
 
-def test_from_ass_string() -> None:
+def test_ass_string_table_section_from_ass_string() -> None:
     """Test AssStringTableSection.from_ass_string function behavior."""
     result = AssStringTableSection.from_ass_string(
         """[Test Section]
@@ -38,7 +38,9 @@ Item: value3,value4
         ("[section]\nFormat:abc,def,ghj\nItem: value", "expected 3 values"),
     ],
 )
-def test_from_invalid_ass_string(source: str, expected_error: str) -> None:
+def test_ass_string_table_section_from_invalid_ass_string(
+    source: str, expected_error: str
+) -> None:
     """Test AssStringTableSection.from_ass_string function behavior."""
     with pytest.raises(CorruptAssError) as exc:
         AssStringTableSection.from_ass_string(source)

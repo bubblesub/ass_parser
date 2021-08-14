@@ -21,7 +21,7 @@ from ass_parser.ass_color import AssColor
         ("XX102030&", ValueError),
     ],
 )
-def test_from_ass_string(
+def test_ass_color_from_ass_string(
     source: str, expected_result: Union[type[Exception], AssColor]
 ) -> None:
     """Test AssColor.from_ass_string function behavior."""

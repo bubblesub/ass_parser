@@ -41,7 +41,7 @@ def test_ass_style_default_properties() -> None:
     assert style.encoding == 1
 
 
-def test_ass_scale() -> None:
+def test_ass_style_scale() -> None:
     """Test scaling styles."""
     style = AssStyle(
         name="test style",

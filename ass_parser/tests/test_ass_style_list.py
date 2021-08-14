@@ -61,7 +61,7 @@ def test_ass_style_list_get_by_name() -> None:
     assert styles.get_by_name("non-existing style") is None
 
 
-def test_copying_style() -> None:
+def test_ass_style_list_copying_style() -> None:
     """Test that copied styles are detached from their original parents."""
     style = AssStyle(name="test style")
     styles = AssStyleList()
@@ -70,7 +70,7 @@ def test_copying_style() -> None:
     assert style.parent == styles
 
 
-def test_copying_style_list() -> None:
+def test_ass_style_list_copying_style_list() -> None:
     """Test that styles copied with their parents are still linked to their
     original parent.
     """
@@ -82,7 +82,7 @@ def test_copying_style_list() -> None:
     assert styles_copy[0].parent == styles
 
 
-def test_deep_copying_style_list() -> None:
+def test_ass_style_list_deep_copying_style_list() -> None:
     """Test that styles deep-copied with their parents are linked to their
     copied parent.
     """
@@ -119,7 +119,7 @@ def test_ass_style_list_removal_reindex() -> None:
     assert style3.index == 1
 
 
-def test_modifying_style_emits_modification_event_in_parent() -> None:
+def test_ass_style_list_modifying_style_emits_modification_event_in_parent() -> None:
     """Test that modifying an style emits a modification event in the context
     of its parent list.
     """
@@ -132,7 +132,7 @@ def test_modifying_style_emits_modification_event_in_parent() -> None:
     subscriber.assert_called_once()
 
 
-def test_pickling_preserves_style_parenthood() -> None:
+def test_ass_style_list_pickling_preserves_style_parenthood() -> None:
     """Test that pickling and unpickling a style list preserves the parenthood
     relationship with its children.
     """
@@ -144,7 +144,7 @@ def test_pickling_preserves_style_parenthood() -> None:
     assert new_styles[0].parent != styles
 
 
-def test_from_ass_string() -> None:
+def test_ass_style_list_from_ass_string() -> None:
     """Test AssStringTableSection.from_ass_string function behavior."""
     result = AssStyleList.from_ass_string(
         """[Test Section]
@@ -193,7 +193,7 @@ Style: Default,Rubik,24,&H0AE9F4F4,&H000000FF,&H00101010,&H7F202020,-1,0,0,0,100
     assert result[0].encoding == 1
 
 
-def test_from_ass_string_unknown_style() -> None:
+def test_ass_style_list_from_ass_string_unknown_style() -> None:
     """Test that unknown styles raise an error."""
     with pytest.raises(CorruptAssError):
         AssStyleList.from_ass_string(
@@ -204,7 +204,7 @@ Unknown: Default,Rubik,24,&H0AE9F4F4,&H000000FF,&H00101010,&H7F202020,-1,0,0,0,1
         )
 
 
-def test_extending_with_another_list() -> None:
+def test_ass_style_list_extending_with_another_list() -> None:
     """Test extending a list with another list.
 
     This demonstrates how to extend a list while dealing with the ownership

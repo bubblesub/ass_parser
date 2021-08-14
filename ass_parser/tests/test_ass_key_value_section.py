@@ -16,7 +16,7 @@ def test_ass_key_value_section_emits_change_event() -> None:
     subscriber.assert_called_once()
 
 
-def test_from_ass_string() -> None:
+def test_ass_key_value_section_from_ass_string() -> None:
     """Test AssKeyValueSection.from_ass_string function behavior."""
     result = AssKeyValueSection.from_ass_string(
         """[Test Section]
@@ -39,7 +39,9 @@ Key 2: Value 2
         ("[section]\nno value", "expected a colon"),
     ],
 )
-def test_from_invalid_ass_string(source: str, expected_error: str) -> None:
+def test_ass_key_value_section_from_invalid_ass_string(
+    source: str, expected_error: str
+) -> None:
     """Test AssKeyValueSection.from_ass_string function behavior."""
     with pytest.raises(CorruptAssError) as exc:
         AssKeyValueSection.from_ass_string(source)

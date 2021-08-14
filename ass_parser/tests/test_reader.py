@@ -90,7 +90,7 @@ def test_read_ass_from_path() -> None:
     verify_result(result)
 
 
-def test_corrupt_ass() -> None:
+def test_read_ass_corrupt_ass() -> None:
     """Test read_ass function raises an error when there are no sections."""
     with pytest.raises(CorruptAssLineError):
         read_ass("no sections")
