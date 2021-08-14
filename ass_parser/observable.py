@@ -45,6 +45,23 @@ class BoundObservable(Generic[TEvent]):
         for callback in self.callbacks:
             callback(event)
 
+    def __getstate__(self) -> Any:
+        """Return pickle compatible object representation.
+
+        The pickled copy does not have subscribers.
+
+        :return: object representation
+        """
+        return self.parent
+
+    def __setstate__(self, state: Any) -> None:
+        """Load class state from pickle compatible object representation.
+
+        :param state: object representation
+        """
+        self.parent = state
+        self.callbacks = []
+
 
 class Observable(Generic[TEvent]):
     """A binding mechanism to associate BoundObservable to class instances.
