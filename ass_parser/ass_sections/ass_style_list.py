@@ -8,8 +8,8 @@ from ass_parser.ass_sections.ass_base_tabular_section import (
 from ass_parser.ass_sections.const import STYLES_SECTION_NAME
 from ass_parser.ass_style import AssStyle
 from ass_parser.observable_sequence_mixin import (
-    ItemInsertionEvent,
-    ItemRemovalEvent,
+    ObservableSequenceItemInsertionEvent,
+    ObservableSequenceItemRemovalEvent,
     ObservableSequenceMixin,
 )
 from ass_parser.util import smart_float
@@ -45,17 +45,23 @@ class AssStyleList(
         return None
 
     @staticmethod
-    def _before_items_insertion(event: ItemInsertionEvent[AssStyle]) -> None:
+    def _before_items_insertion(
+        event: ObservableSequenceItemInsertionEvent[AssStyle],
+    ) -> None:
         for item in event.items:
             if item.parent is not None:
                 raise TypeError("AssStyle belongs to another AssStyleList")
 
-    def _on_items_insertion(self, event: ItemInsertionEvent[AssStyle]) -> None:
+    def _on_items_insertion(
+        self, event: ObservableSequenceItemInsertionEvent[AssStyle]
+    ) -> None:
         for item in event.items:
             item._parent = self  # pylint: disable=protected-access
         self._reindex()
 
-    def _on_items_removal(self, event: ItemRemovalEvent[AssStyle]) -> None:
+    def _on_items_removal(
+        self, event: ObservableSequenceItemRemovalEvent[AssStyle]
+    ) -> None:
         for item in event.items:
             item._parent = None  # pylint: disable=protected-access
             item._index = None  # pylint: disable=protected-access

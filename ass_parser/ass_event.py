@@ -4,8 +4,8 @@ from typing import TYPE_CHECKING, Optional
 
 from ass_parser.observable_object_mixin import ObservableObjectMixin
 from ass_parser.observable_sequence_mixin import (
-    ItemModificationEvent,
     ObservableSequenceChangeEvent,
+    ObservableSequenceItemModificationEvent,
 )
 
 if TYPE_CHECKING:
@@ -133,7 +133,9 @@ class AssEvent(ObservableObjectMixin):
         super()._after_change()
         if self.parent is not None:
             self.parent.items_modified.emit(
-                ItemModificationEvent(index=self.index, item=self)
+                ObservableSequenceItemModificationEvent(
+                    index=self.index, item=self
+                )
             )
             self.parent.changed.emit(ObservableSequenceChangeEvent())
 

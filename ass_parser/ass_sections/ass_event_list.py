@@ -8,8 +8,8 @@ from ass_parser.ass_sections.ass_base_tabular_section import (
 )
 from ass_parser.ass_sections.const import EVENTS_SECTION_NAME
 from ass_parser.observable_sequence_mixin import (
-    ItemInsertionEvent,
-    ItemRemovalEvent,
+    ObservableSequenceItemInsertionEvent,
+    ObservableSequenceItemRemovalEvent,
     ObservableSequenceMixin,
 )
 from ass_parser.util import (
@@ -40,17 +40,23 @@ class AssEventList(
             self.extend(data)
 
     @staticmethod
-    def _before_items_insertion(event: ItemInsertionEvent[AssEvent]) -> None:
+    def _before_items_insertion(
+        event: ObservableSequenceItemInsertionEvent[AssEvent],
+    ) -> None:
         for item in event.items:
             if item.parent is not None:
                 raise TypeError("AssEvent belongs to another AssEventList")
 
-    def _on_items_insertion(self, event: ItemInsertionEvent[AssEvent]) -> None:
+    def _on_items_insertion(
+        self, event: ObservableSequenceItemInsertionEvent[AssEvent]
+    ) -> None:
         for item in event.items:
             item._parent = self  # pylint: disable=protected-access
         self._reindex()
 
-    def _on_items_removal(self, event: ItemRemovalEvent[AssEvent]) -> None:
+    def _on_items_removal(
+        self, event: ObservableSequenceItemRemovalEvent[AssEvent]
+    ) -> None:
         for item in event.items:
             item._parent = None  # pylint: disable=protected-access
             item._index = None  # pylint: disable=protected-access
