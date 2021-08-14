@@ -5,9 +5,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from ass_parser.ass_event import AssEvent
-from ass_parser.ass_sections.ass_event_list import AssEventList
-from ass_parser.errors import CorruptAssError
+from ass_parser import AssEvent, AssEventList, CorruptAssError
 
 
 def test_ass_event_list_constructor() -> None:

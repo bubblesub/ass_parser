@@ -3,7 +3,7 @@ from typing import Union
 
 import pytest
 
-from ass_parser.ass_color import AssColor
+from ass_parser import AssColor
 
 
 @pytest.mark.parametrize(

@@ -1,10 +1,7 @@
 """Tests for the AssStringTableSection class."""
 import pytest
 
-from ass_parser.ass_sections.ass_string_table_section import (
-    AssStringTableSection,
-)
-from ass_parser.errors import CorruptAssError
+from ass_parser import AssStringTableSection, CorruptAssError
 
 
 def test_ass_string_table_section_from_ass_string() -> None:

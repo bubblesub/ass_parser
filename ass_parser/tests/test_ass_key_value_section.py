@@ -3,8 +3,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from ass_parser.ass_sections.ass_key_value_section import AssKeyValueSection
-from ass_parser.errors import CorruptAssError
+from ass_parser import AssKeyValueSection, CorruptAssError
 
 
 def test_ass_key_value_section_emits_change_event() -> None:

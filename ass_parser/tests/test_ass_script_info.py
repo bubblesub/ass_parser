@@ -1,7 +1,7 @@
 """Tests for the AssScriptInfo class."""
 from unittest.mock import Mock
 
-from ass_parser.ass_sections.ass_script_info import AssScriptInfo
+from ass_parser import AssScriptInfo
 
 
 def test_ass_script_info_emits_change_event() -> None:

@@ -1,5 +1,5 @@
 """Tests for the AssStyle class."""
-from ass_parser.ass_style import AssStyle
+from ass_parser import AssStyle
 
 
 def test_ass_style_default_properties() -> None:
