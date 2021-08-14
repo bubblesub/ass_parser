@@ -11,6 +11,14 @@ from ass_parser.ass_style import AssStyle
 from ass_parser.errors import CorruptAssError
 
 
+def test_ass_style_list_constructor() -> None:
+    """Test that constructor accepts a list of styles."""
+    style = AssStyle(name="dummy style")
+    styles = AssStyleList(data=[style])
+    assert len(styles) == 1
+    assert style.parent == styles
+
+
 def test_ass_style_list_append_sets_parent() -> None:
     """Test that style insertion sets the item parent."""
     style = AssStyle(name="dummy style")

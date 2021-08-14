@@ -10,6 +10,14 @@ from ass_parser.ass_sections.ass_event_list import AssEventList
 from ass_parser.errors import CorruptAssError
 
 
+def test_ass_event_list_constructor() -> None:
+    """Test that constructor accepts a list of events."""
+    event = AssEvent()
+    events = AssEventList(data=[event])
+    assert len(events) == 1
+    assert event.parent == events
+
+
 def test_ass_event_list_append_sets_parent() -> None:
     """Test that event insertion sets the item parent."""
     event = AssEvent()

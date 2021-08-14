@@ -19,12 +19,18 @@ class AssStyleList(
 ):
     """ASS styles container."""
 
-    def __init__(self, name: str = STYLES_SECTION_NAME) -> None:
+    def __init__(
+        self,
+        data: Optional[list[AssStyle]] = None,
+        name: str = STYLES_SECTION_NAME,
+    ) -> None:
         """Initialize self."""
         super().__init__(name=name)
         self.items_about_to_be_inserted.subscribe(self._before_items_insertion)
         self.items_inserted.subscribe(self._on_items_insertion)
         self.items_removed.subscribe(self._on_items_removal)
+        if data:
+            self.extend(data)
 
     def get_by_name(self, name: str) -> Optional[AssStyle]:
         """Retrieve style by its name.

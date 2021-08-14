@@ -1,5 +1,6 @@
 """AssEventList definition."""
 import re
+from typing import Optional
 
 from ass_parser.ass_event import AssEvent
 from ass_parser.ass_sections.ass_base_tabular_section import (
@@ -20,12 +21,18 @@ class AssEventList(
 ):
     """ASS events container."""
 
-    def __init__(self, name: str = EVENTS_SECTION_NAME) -> None:
+    def __init__(
+        self,
+        name: str = EVENTS_SECTION_NAME,
+        data: Optional[list[AssEvent]] = None,
+    ) -> None:
         """Initialize self."""
         super().__init__(name=name)
         self.items_about_to_be_inserted.subscribe(self._before_items_insertion)
         self.items_inserted.subscribe(self._on_items_insertion)
         self.items_removed.subscribe(self._on_items_removal)
+        if data:
+            self.extend(data)
 
     @staticmethod
     def _before_items_insertion(event: ItemInsertionEvent[AssEvent]) -> None:
