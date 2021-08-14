@@ -233,3 +233,19 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 Unknown: 0,0:00:13.94,0:00:15.61,,,0,0,0,,{TIME:13941,15619}
 """
         )
+
+
+def test_extending_with_another_list() -> None:
+    """Test extending a list with another list.
+
+    This demonstrates how to extend a list while dealing with the ownership
+    shenanigans.
+    """
+    event = AssEvent()
+    events1 = AssEventList()
+    events2 = AssEventList()
+    events2.append(event)
+    assert len(events1) == 0
+    assert len(events2) == 1
+    events1.extend(map(copy, events2))
+    assert len(events1) == 1

@@ -1,4 +1,5 @@
 """Tests for the AssStyleList class."""
+# pylint: disable=line-too-long
 import pickle
 from copy import copy, deepcopy
 from unittest.mock import Mock
@@ -137,7 +138,6 @@ def test_pickling_preserves_style_parenthood() -> None:
 
 def test_from_ass_string() -> None:
     """Test AssStringTableSection.from_ass_string function behavior."""
-    # pylint: disable=line-too-long
     result = AssStyleList.from_ass_string(
         """[Test Section]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
@@ -187,7 +187,6 @@ Style: Default,Rubik,24,&H0AE9F4F4,&H000000FF,&H00101010,&H7F202020,-1,0,0,0,100
 
 def test_from_ass_string_unknown_style() -> None:
     """Test that unknown styles raise an error."""
-    # pylint: disable=line-too-long
     with pytest.raises(CorruptAssError):
         AssStyleList.from_ass_string(
             """[Test Section]
@@ -195,3 +194,19 @@ Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour,
 Unknown: Default,Rubik,24,&H0AE9F4F4,&H000000FF,&H00101010,&H7F202020,-1,0,0,0,100,125,0,0,1,2.5,0,2,15,15,15,1
 """
         )
+
+
+def test_extending_with_another_list() -> None:
+    """Test extending a list with another list.
+
+    This demonstrates how to extend a list while dealing with the ownership
+    shenanigans.
+    """
+    style = AssStyle(name="dummy style")
+    styles1 = AssStyleList()
+    styles2 = AssStyleList()
+    styles2.append(style)
+    assert len(styles1) == 0
+    assert len(styles2) == 1
+    styles1.extend(map(copy, styles2))
+    assert len(styles1) == 1
