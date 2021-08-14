@@ -12,6 +12,7 @@ from ass_parser.observable_sequence_mixin import (
     ItemRemovalEvent,
     ObservableSequenceMixin,
 )
+from ass_parser.util import smart_float
 
 
 class AssStyleList(
@@ -104,3 +105,36 @@ class AssStyleList(
                 encoding=int(item["Encoding"]),
             )
         )
+
+    def produce_ass_table_row(
+        self, own_item: AssStyle
+    ) -> tuple[str, dict[str, str]]:
+        """Produce a dict representation based on an own item.
+
+        :return: a tuple of the part before the colon and a dictified ASS line
+        """
+        return "Style", {
+            "Name": own_item.name,
+            "Fontname": own_item.font_name,
+            "Fontsize": str(own_item.font_size),
+            "PrimaryColour": own_item.primary_color.to_ass_string(),
+            "SecondaryColour": own_item.secondary_color.to_ass_string(),
+            "OutlineColour": own_item.outline_color.to_ass_string(),
+            "BackColour": own_item.back_color.to_ass_string(),
+            "Bold": "-1" if own_item.bold else "0",
+            "Italic": "-1" if own_item.italic else "0",
+            "Underline": "-1" if own_item.underline else "0",
+            "StrikeOut": "-1" if own_item.strike_out else "0",
+            "ScaleX": smart_float(own_item.scale_x),
+            "ScaleY": smart_float(own_item.scale_y),
+            "Spacing": smart_float(own_item.spacing),
+            "Angle": smart_float(own_item.angle),
+            "BorderStyle": str(own_item.border_style),
+            "Outline": smart_float(own_item.outline),
+            "Shadow": smart_float(own_item.shadow),
+            "Alignment": str(own_item.alignment),
+            "MarginL": str(own_item.margin_left),
+            "MarginR": str(own_item.margin_right),
+            "MarginV": str(own_item.margin_vertical),
+            "Encoding": str(own_item.encoding),
+        }

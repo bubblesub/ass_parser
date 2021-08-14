@@ -27,3 +27,15 @@ class AssColor(NamedTuple):
         blue = (val >> 16) & 0xFF
         alpha = (val >> 24) & 0xFF
         return AssColor(red, green, blue, alpha)
+
+    def to_ass_string(self) -> str:
+        """Serialize to an ASS text reperesentation.
+
+        :return: text representation of self
+        """
+        return (
+            f"&H{self.alpha:02X}"
+            f"{self.blue:02X}"
+            f"{self.green:02X}"
+            f"{self.red:02X}"
+        )

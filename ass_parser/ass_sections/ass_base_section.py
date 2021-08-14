@@ -1,4 +1,5 @@
 """AssBaseSection definition."""
+from collections.abc import Iterable
 from typing import TypeVar
 
 from ass_parser.ass_sections.const import SECTION_HEADING_RE
@@ -42,6 +43,13 @@ class AssBaseSection:
         )
         return result
 
+    def to_ass_string(self) -> str:
+        """Create an ASS text representation of itself.
+
+        :return: ASS representation
+        """
+        return "\n".join(self.produce_ass_lines()) + "\n"
+
     def consume_ass_lines(self, lines: list[tuple[int, str]]) -> None:
         """Populate self from ASS text representation of this section,
         including the ASS header line.
@@ -64,5 +72,22 @@ class AssBaseSection:
         excluding the ASS header line.
 
         :param lines: list of tuples (line_num, line)
+        """
+        raise NotImplementedError("not implemented")  # pragma: no cover
+
+    def produce_ass_lines(self) -> Iterable[str]:
+        """Produce ASS text representation of self, including the ASS header
+        line.
+
+        :return: a generator of ASS section lines
+        """
+        yield f"[{self.name}]"
+        yield from self.produce_ass_body_lines()
+
+    def produce_ass_body_lines(self) -> Iterable[str]:
+        """Produce ASS text representation of self, excluding the ASS header
+        line.
+
+        :return: a generator of ASS section body lines
         """
         raise NotImplementedError("not implemented")  # pragma: no cover

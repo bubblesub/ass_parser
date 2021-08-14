@@ -1,4 +1,6 @@
 """AssKeyValueMapping definition."""
+from collections.abc import Iterable
+
 from ass_parser.ass_sections.ass_base_section import AssBaseSection
 from ass_parser.errors import CorruptAssLineError
 from ass_parser.observable_mapping_mixin import ObservableMappingMixin
@@ -24,3 +26,12 @@ class AssKeyValueMapping(ObservableMappingMixin[str, str], AssBaseSection):
                 ) from exc
             else:
                 self[key] = value.lstrip()
+
+    def produce_ass_body_lines(self) -> Iterable[str]:
+        """Produce ASS text representation of self, excluding the ASS header
+        line.
+
+        :return: a generator of ASS section body lines
+        """
+        for key, value in self.items():
+            yield f"{key}: {value}"

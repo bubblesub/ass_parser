@@ -14,6 +14,7 @@ from ass_parser.ass_sections import (
 from ass_parser.ass_style import AssStyle
 from ass_parser.errors import CorruptAssError, CorruptAssLineError
 from ass_parser.reader import read_ass
+from ass_parser.writer import write_ass
 
 __all__ = [
     "AssBaseSection",
@@ -30,4 +31,5 @@ __all__ = [
     "CorruptAssError",
     "CorruptAssLineError",
     "read_ass",
+    "write_ass",
 ]

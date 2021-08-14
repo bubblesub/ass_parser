@@ -4,12 +4,12 @@ from ass_parser.ass_sections.ass_base_tabular_section import (
 )
 from ass_parser.observable_sequence_mixin import ObservableSequenceMixin
 
-AssStringTableSectionItem = tuple[str, dict[str, str]]
+AssStringTableItem = tuple[str, dict[str, str]]
 
 
 class AssStringTable(
-    ObservableSequenceMixin[AssStringTableSectionItem],
-    AssBaseTabularSection[AssStringTableSectionItem],
+    ObservableSequenceMixin[AssStringTableItem],
+    AssBaseTabularSection[AssStringTableItem],
 ):
     """Simple tabular string ASS section."""
 
@@ -22,3 +22,12 @@ class AssStringTable(
         :param item: the dictified ASS line
         """
         self.append((item_type, item))
+
+    def produce_ass_table_row(
+        self, own_item: AssStringTableItem
+    ) -> tuple[str, dict[str, str]]:
+        """Produce a dict representation based on an own item.
+
+        :return: a tuple of the part before the colon and a dictified ASS line
+        """
+        return own_item[0], own_item[1]

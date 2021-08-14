@@ -45,3 +45,18 @@ def test_ass_key_value_mapping_from_invalid_ass_string(
     with pytest.raises(CorruptAssError) as exc:
         AssKeyValueMapping.from_ass_string(source)
     assert expected_error in str(exc)
+
+
+def test_ass_key_value_mapping_to_ass_string() -> None:
+    """Test AssKeyValueMapping.to_ass_string function behavior."""
+    section = AssKeyValueMapping(name="Test Section")
+    section["Key 1"] = "Value 1"
+    section["Key 2"] = "Value 2"
+
+    assert (
+        section.to_ass_string()
+        == """[Test Section]
+Key 1: Value 1
+Key 2: Value 2
+"""
+    )

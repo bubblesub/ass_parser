@@ -12,7 +12,12 @@ from ass_parser.observable_sequence_mixin import (
     ItemRemovalEvent,
     ObservableSequenceMixin,
 )
-from ass_parser.util import timestamp_to_ms, unescape_ass_tag
+from ass_parser.util import (
+    ass_timestamp_to_ms,
+    escape_ass_tag,
+    ms_to_ass_timestamp,
+    unescape_ass_tag,
+)
 
 
 class AssEventList(
@@ -74,8 +79,8 @@ class AssEventList(
             note = unescape_ass_tag(match.group("note"))
 
         # ASS tags have centisecond precision
-        start = timestamp_to_ms(item["Start"])
-        end = timestamp_to_ms(item["End"])
+        start = ass_timestamp_to_ms(item["Start"])
+        end = ass_timestamp_to_ms(item["End"])
 
         # refine times down to millisecond precision using novelty {TIME:…} tag,
         # but only if the times match the regular ASS times. This is so that
@@ -107,3 +112,34 @@ class AssEventList(
                 is_comment=item_type == "Comment",
             )
         )
+
+    def produce_ass_table_row(
+        self, own_item: AssEvent
+    ) -> tuple[str, dict[str, str]]:
+        """Produce a dict representation based on an own item.
+
+        :return: a tuple of the part before the colon and a dictified ASS line
+        """
+        text = own_item.text
+
+        if own_item.start is not None and own_item.end is not None:
+            text = "{TIME:%d,%d}" % (own_item.start, own_item.end) + text
+
+        if own_item.note:
+            text += "{NOTE:%s}" % escape_ass_tag(
+                own_item.note.replace("\n", "\\N")
+            )
+
+        event_type = "Comment" if own_item.is_comment else "Dialogue"
+        return event_type, {
+            "Layer": str(own_item.layer),
+            "Start": ms_to_ass_timestamp(own_item.start),
+            "End": ms_to_ass_timestamp(own_item.end),
+            "Style": str(own_item.style_name),
+            "Actor": str(own_item.actor),
+            "MarginL": str(own_item.margin_left),
+            "MarginR": str(own_item.margin_right),
+            "MarginV": str(own_item.margin_vertical),
+            "Effect": str(own_item.effect),
+            "Text": text,
+        }

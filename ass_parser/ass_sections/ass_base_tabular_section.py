@@ -1,5 +1,5 @@
 """AssBaseTabularSection definition."""
-from collections.abc import MutableSequence
+from collections.abc import Iterable, MutableSequence
 from typing import Generic, TypeVar
 
 from ass_parser.ass_sections.ass_base_section import AssBaseSection
@@ -68,5 +68,32 @@ class AssBaseTabularSection(
 
         :param item_type: the part before the colon
         :param item: the dictified ASS line
+        """
+        raise NotImplementedError("not implemented")  # pragma: no cover
+
+    def produce_ass_body_lines(self) -> Iterable[str]:
+        """Produce ASS text representation of self, excluding the ASS header
+        line.
+
+        :return: a generator of ASS section body lines
+        """
+        header_output = False
+        for own_item in self:
+            item_type, item_dict = self.produce_ass_table_row(own_item)
+            if not header_output:
+                yield "Format: " + ",".join(item_dict.keys())
+                header_output = True
+            values = list(item_dict.values())
+            last_value = values.pop()
+            values = [value.replace(",", ";") for value in values]
+            values.append(last_value)
+            yield f"{item_type}: " + ",".join(values)
+
+    def produce_ass_table_row(
+        self, own_item: TAssTableItem
+    ) -> tuple[str, dict[str, str]]:
+        """Produce a dict representation based on an own item.
+
+        :return: a tuple of the part before the colon and a dictified ASS line
         """
         raise NotImplementedError("not implemented")  # pragma: no cover
