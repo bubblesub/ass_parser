@@ -1,13 +1,13 @@
 """ASS events container."""
 from ass_parser.ass_event import AssEvent
-from ass_parser.observable_sequence import (
+from ass_parser.observable_sequence_mixin import (
     ItemInsertionEvent,
     ItemRemovalEvent,
-    ObservableSequence,
+    ObservableSequenceMixin,
 )
 
 
-class AssEventList(ObservableSequence[AssEvent]):
+class AssEventList(ObservableSequenceMixin[AssEvent]):
     """ASS events container."""
 
     def __init__(self) -> None:

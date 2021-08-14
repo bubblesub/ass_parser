@@ -1,6 +1,6 @@
 """ASS file metadata."""
-from ass_parser.observable_mapping import ObservableMapping
+from ass_parser.observable_mapping_mixin import ObservableMappingMixin
 
 
-class AssMeta(ObservableMapping[str, str]):
+class AssMeta(ObservableMappingMixin[str, str]):
     """ASS file metadata."""

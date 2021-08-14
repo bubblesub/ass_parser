@@ -1,7 +1,7 @@
-"""ObservableMapping definition."""
+"""ObservableMappingMixin definition."""
 from collections.abc import Iterable, Iterator, Mapping, MutableMapping
 from dataclasses import dataclass
-from typing import TypeVar, Union, cast, overload
+from typing import Any, TypeVar, Union, cast, overload
 
 from ass_parser.observable import Event, Observable
 
@@ -14,16 +14,16 @@ class ObservableMappingChangeEvent(Event):
     """Observable mapping item change event."""
 
 
-class ObservableMapping(MutableMapping[TKey, TValue]):
+class ObservableMappingMixin(MutableMapping[TKey, TValue]):
     """Observable mapping - a mapping that lets consumers to subscribe to
     collection change events.
     """
 
     changed = Observable[ObservableMappingChangeEvent]()
 
-    def __init__(self) -> None:
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         """Initialize self."""
-        super().__init__()
+        super().__init__(*args, **kwargs)  # type: ignore
         self._data: dict[TKey, TValue] = {}
 
     def __getitem__(self, key: TKey) -> TValue:

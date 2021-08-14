@@ -1,4 +1,4 @@
-"""ObservableObject definition."""
+"""ObservableObjectMixin definition."""
 from dataclasses import dataclass
 from typing import Any, Callable, TypeVar
 
@@ -12,7 +12,7 @@ class ObservableObjectChangeEvent(Event):
     """Observable object property change event."""
 
 
-class ObservableObject:
+class ObservableObjectMixin:
     """An object that lets consumers to subscribe to its property change
     events.
     """
@@ -96,5 +96,5 @@ class ObservableObject:
 
     _dirty: bool = False
     _setattr_impl: Callable[
-        ["ObservableObject", str, Any], None
+        ["ObservableObjectMixin", str, Any], None
     ] = _setattr_normal

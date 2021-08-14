@@ -1,11 +1,11 @@
-"""Tests for the ObservableMapping class."""
+"""Tests for the ObservableMappingMixin class."""
 from unittest.mock import Mock
 
-from ass_parser.observable_mapping import ObservableMapping
+from ass_parser.observable_mapping_mixin import ObservableMappingMixin
 
 
-class DummyMapping(ObservableMapping[str, str]):
-    """Test ObservableMapping implementation."""
+class DummyMapping(ObservableMappingMixin[str, str]):
+    """Test ObservableMappingMixin implementation."""
 
 
 def test_ass_meta_get_set() -> None:

@@ -2,14 +2,14 @@
 from typing import Optional
 
 from ass_parser.ass_style import AssStyle
-from ass_parser.observable_sequence import (
+from ass_parser.observable_sequence_mixin import (
     ItemInsertionEvent,
     ItemRemovalEvent,
-    ObservableSequence,
+    ObservableSequenceMixin,
 )
 
 
-class AssStyleList(ObservableSequence[AssStyle]):
+class AssStyleList(ObservableSequenceMixin[AssStyle]):
     """ASS styles container."""
 
     def __init__(self) -> None:

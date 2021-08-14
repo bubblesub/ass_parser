@@ -1,15 +1,15 @@
-"""Tests for the ObservableObject class."""
+"""Tests for the ObservableObjectMixin class."""
 from dataclasses import dataclass
 from typing import Type
 from unittest.mock import Mock
 
 import pytest
 
-from ass_parser.observable_object import ObservableObject
+from ass_parser.observable_object_mixin import ObservableObjectMixin
 
 
-class DummyObject(ObservableObject):
-    """Test ObservableObject implementation."""
+class DummyObject(ObservableObjectMixin):
+    """Test ObservableObjectMixin implementation."""
 
     def __init__(self, name: str, count: int) -> None:
         super().__init__()
@@ -18,8 +18,8 @@ class DummyObject(ObservableObject):
 
 
 @dataclass
-class DummyDataclassObject(ObservableObject):
-    """Test ObservableObject implementation using @dataclass idiom."""
+class DummyDataclassObject(ObservableObjectMixin):
+    """Test ObservableObjectMixin implementation using @dataclass idiom."""
 
     name: str
     count: int

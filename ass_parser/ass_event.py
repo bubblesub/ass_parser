@@ -2,8 +2,8 @@
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Optional
 
-from ass_parser.observable_object import ObservableObject
-from ass_parser.observable_sequence import (
+from ass_parser.observable_object_mixin import ObservableObjectMixin
+from ass_parser.observable_sequence_mixin import (
     ItemModificationEvent,
     ObservableSequenceChangeEvent,
 )
@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 
 
 @dataclass
-class AssEvent(ObservableObject):
+class AssEvent(ObservableObjectMixin):
     """ASS event (subtitle, comment etc.)."""
 
     start: int = 0

@@ -1,13 +1,13 @@
-"""Tests for the ObservableSequence class."""
+"""Tests for the ObservableSequenceMixin class."""
 from unittest.mock import Mock
 
 import pytest
 
-from ass_parser.observable_sequence import ObservableSequence
+from ass_parser.observable_sequence_mixin import ObservableSequenceMixin
 
 
-class DummySequence(ObservableSequence[int]):
-    """Test ObservableSequence implementation."""
+class DummySequence(ObservableSequenceMixin[int]):
+    """Test ObservableSequenceMixin implementation."""
 
 
 def test_append() -> None:

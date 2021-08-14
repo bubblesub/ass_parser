@@ -1,7 +1,7 @@
-"""ObservableSequence definition."""
+"""ObservableSequenceMixin definition."""
 from collections.abc import Iterable, MutableSequence
 from dataclasses import dataclass
-from typing import Generic, TypeVar, Union, overload
+from typing import Any, Generic, TypeVar, Union, overload
 
 from ass_parser.observable import Event, Observable
 
@@ -12,8 +12,8 @@ TItem = TypeVar("TItem")
 class ItemRemovalEvent(Event, Generic[TItem]):
     """Observable sequence item removal event.
 
-    Broadcast by ObservableSequence after and before an item was removed from
-    it.
+    Broadcast by ObservableSequenceMixin after and before an item was removed
+    from it.
     """
 
     index: Union[int, slice]
@@ -25,8 +25,8 @@ class ItemRemovalEvent(Event, Generic[TItem]):
 class ItemInsertionEvent(Event, Generic[TItem]):
     """Observable sequence item insertion event.
 
-    Broadcast by ObservableSequence after and before an item was inserted to
-    it.
+    Broadcast by ObservableSequenceMixin after and before an item was inserted
+    to it.
     """
 
     index: Union[int, slice]
@@ -38,8 +38,8 @@ class ItemInsertionEvent(Event, Generic[TItem]):
 class ItemModificationEvent(Event, Generic[TItem]):
     """Observable sequence item modification event.
 
-    Broadcast by third party classes after an item within an ObservableSequence
-    was modified.
+    Broadcast by third party classes after an item within an
+    ObservableSequenceMixin was modified.
     """
 
     index: Union[int, slice]
@@ -51,7 +51,7 @@ class ObservableSequenceChangeEvent(Event):
     """Generic observable sequence change event."""
 
 
-class ObservableSequence(MutableSequence[TItem]):
+class ObservableSequenceMixin(MutableSequence[TItem]):
     """Observable sequence - a sequence that lets consumers to subscribe to
     collection change events.
     """
@@ -63,9 +63,9 @@ class ObservableSequence(MutableSequence[TItem]):
     items_modified = Observable[ItemModificationEvent[TItem]]()
     changed = Observable[ObservableSequenceChangeEvent]()
 
-    def __init__(self) -> None:
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         """Initialize self."""
-        super().__init__()
+        super().__init__(*args, **kwargs)  # type: ignore
         self._data: list[TItem] = []
 
     def __len__(self) -> int:
