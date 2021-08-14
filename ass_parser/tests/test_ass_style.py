@@ -1,4 +1,6 @@
 """Tests for the AssStyle class."""
+from unittest.mock import Mock
+
 from ass_parser import AssStyle
 
 
@@ -59,3 +61,18 @@ def test_ass_style_scale() -> None:
     assert style.margin_left == 10
     assert style.margin_right == 12
     assert style.margin_vertical == 15
+
+
+def test_ass_style_equality() -> None:
+    """Test that styles can be easily compared."""
+    assert AssStyle(name="test") != 5
+    assert AssStyle(name="test") == AssStyle(name="test")
+    assert AssStyle(name="test") != AssStyle(name="changed")
+
+    subscriber = Mock()
+    style1 = AssStyle(name="test")
+    style2 = AssStyle(name="test")
+    style1.changed.subscribe(subscriber)
+    assert style1 == style2
+    style1.name = "changed"
+    assert style1 != style2

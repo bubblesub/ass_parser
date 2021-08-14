@@ -1,6 +1,6 @@
 """AssEventList definition."""
 import re
-from typing import Optional
+from typing import Any, Optional
 
 from ass_parser.ass_event import AssEvent
 from ass_parser.ass_sections.ass_base_tabular_section import (
@@ -149,3 +149,15 @@ class AssEventList(
             "Effect": str(own_item.effect),
             "Text": text,
         }
+
+    def __eq__(self, other: Any) -> bool:
+        """Check for equality. Ignores event handlers.
+
+        :param other: other object
+        :return: whether objects are equal
+        """
+        if not isinstance(other, AssEventList):
+            return False
+        return self.name == other.name and tuple(self._data) == tuple(
+            other._data
+        )

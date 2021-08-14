@@ -54,3 +54,23 @@ def test_ass_event_duration() -> None:
     """Test that duration returns expected values."""
     assert AssEvent().duration == 0
     assert AssEvent(start=1, end=5).duration == 4
+
+
+def test_ass_event_equality() -> None:
+    """Test that events can be easily compared."""
+    assert AssEvent() != 5
+    assert AssEvent() == AssEvent()
+    assert AssEvent(text="test") == AssEvent(text="test")
+    assert AssEvent(note="test") == AssEvent(note="test")
+    assert AssEvent(text="test") != AssEvent(text="changed")
+    assert AssEvent(note="test") != AssEvent(note="changed")
+    assert AssEvent(actor="test") != AssEvent(actor="changed")
+    assert AssEvent(actor="test") != AssEvent(actor="changed")
+
+    subscriber = Mock()
+    event1 = AssEvent()
+    event2 = AssEvent()
+    event1.changed.subscribe(subscriber)
+    assert event1 == event2
+    event1.text = "changed"
+    assert event1 != event2

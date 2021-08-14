@@ -1,5 +1,5 @@
 """AssStyleList definition."""
-from typing import Optional
+from typing import Any, Optional
 
 from ass_parser.ass_color import AssColor
 from ass_parser.ass_sections.ass_base_tabular_section import (
@@ -144,3 +144,15 @@ class AssStyleList(
             "MarginV": str(own_item.margin_vertical),
             "Encoding": str(own_item.encoding),
         }
+
+    def __eq__(self, other: Any) -> bool:
+        """Check for equality. Ignores event handlers.
+
+        :param other: other object
+        :return: whether objects are equal
+        """
+        if not isinstance(other, AssStyleList):
+            return False
+        return self.name == other.name and tuple(self._data) == tuple(
+            other._data
+        )

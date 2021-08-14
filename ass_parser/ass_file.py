@@ -1,6 +1,6 @@
 """AssFile definition."""
 from dataclasses import dataclass
-from typing import IO
+from typing import IO, Any
 
 from ass_parser.ass_sections import (
     AssBaseSection,
@@ -90,3 +90,18 @@ class AssFile:
                 section = AssKeyValueMapping(name=section_info.name)
                 section.consume_ass_lines(section_info.lines)
                 self.extra_sections.append(section)
+
+    def __eq__(self, other: Any) -> bool:
+        """Check for equality.
+
+        :param other: other object
+        :return: whether objects are equal
+        """
+        if not isinstance(other, AssFile):
+            return False
+        return (
+            self.script_info == other.script_info
+            and self.events == other.events
+            and self.styles == other.styles
+            and self.extra_sections == other.extra_sections
+        )

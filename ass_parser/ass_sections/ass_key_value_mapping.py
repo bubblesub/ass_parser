@@ -1,5 +1,6 @@
 """AssKeyValueMapping definition."""
 from collections.abc import Iterable
+from typing import Any
 
 from ass_parser.ass_sections.ass_base_section import AssBaseSection
 from ass_parser.errors import CorruptAssLineError
@@ -35,3 +36,13 @@ class AssKeyValueMapping(ObservableMappingMixin[str, str], AssBaseSection):
         """
         for key, value in self.items():
             yield f"{key}: {value}"
+
+    def __eq__(self, other: Any) -> bool:
+        """Check for equality. Ignores event handlers.
+
+        :param other: other object
+        :return: whether objects are equal
+        """
+        if not isinstance(other, AssKeyValueMapping):
+            return False
+        return self.name == other.name and self._data == other._data

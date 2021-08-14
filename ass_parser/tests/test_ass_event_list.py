@@ -154,8 +154,8 @@ def test_ass_event_list_pickling_preserves_event_parenthood() -> None:
     events = AssEventList()
     events.append(event)
     new_events = pickle.loads(pickle.dumps(events))
-    assert new_events[0].parent == new_events
-    assert new_events[0].parent != events
+    assert new_events[0].parent is new_events
+    assert new_events[0].parent is not events
 
 
 def test_ass_event_list_default_section_name() -> None:
@@ -277,3 +277,14 @@ def test_ass_event_note_emits_change_event() -> None:
     subscriber.assert_not_called()
     event.note = "line 1\nline 2"
     subscriber.assert_called_once()
+
+
+def test_ass_event_list_equality() -> None:
+    """Test that event lists can be easily compared."""
+    assert AssEventList() != 5
+    assert AssEventList() == AssEventList()
+    assert AssEventList() != AssEventList(name="changed")
+    assert AssEventList(data=[AssEvent()]) == AssEventList(data=[AssEvent()])
+    assert AssEventList(data=[AssEvent()]) != AssEventList(
+        data=[AssEvent(actor="changed")]
+    )

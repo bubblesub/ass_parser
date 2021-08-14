@@ -1,6 +1,6 @@
 """AssEvent definition."""
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 from ass_parser.observable_object_mixin import ObservableObjectMixin
 from ass_parser.observable_sequence_mixin import (
@@ -155,6 +155,21 @@ class AssEvent(ObservableObjectMixin):
             }
         )
         return ret
+
+    def __eq__(self, other: Any) -> bool:
+        """Check for equality. Ignores parent list and event handlers.
+
+        :param other: other object
+        :return: whether objects are equal
+        """
+        if not isinstance(other, AssEvent):
+            return False
+        return all(
+            key.startswith("_")
+            or key == "parent"
+            or getattr(self, key) == getattr(other, key)
+            for key in self.__dataclass_fields__  # type: ignore
+        )
 
 
 AssEvent.text = property(AssEvent.get_text, AssEvent.set_text)  # type: ignore

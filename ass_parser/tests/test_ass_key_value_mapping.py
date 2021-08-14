@@ -60,3 +60,21 @@ Key 1: Value 1
 Key 2: Value 2
 """
     )
+
+
+def test_ass_key_value_mapping_equality() -> None:
+    """Test that key value mappings can be easily compared."""
+    assert AssKeyValueMapping(name="test") != 5
+    assert AssKeyValueMapping(name="test") == AssKeyValueMapping(name="test")
+    assert AssKeyValueMapping(name="test") != AssKeyValueMapping(
+        name="changed"
+    )
+
+    mapping1 = AssKeyValueMapping(name="test")
+    mapping2 = AssKeyValueMapping(name="test")
+    mapping1["key"] = "value"
+    mapping2["key"] = "value"
+    assert mapping1 == mapping2
+
+    mapping2["key"] = "changed"
+    assert mapping1 != mapping2

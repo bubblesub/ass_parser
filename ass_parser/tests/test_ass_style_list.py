@@ -138,8 +138,8 @@ def test_ass_style_list_pickling_preserves_style_parenthood() -> None:
     styles = AssStyleList()
     styles.append(style)
     new_styles = pickle.loads(pickle.dumps(styles))
-    assert new_styles[0].parent == new_styles
-    assert new_styles[0].parent != styles
+    assert new_styles[0].parent is new_styles
+    assert new_styles[0].parent is not styles
 
 
 def test_ass_style_list_from_ass_string() -> None:
@@ -216,3 +216,16 @@ def test_ass_style_list_extending_with_another_list() -> None:
     assert len(styles2) == 1
     styles1.extend(map(copy, styles2))
     assert len(styles1) == 1
+
+
+def test_ass_style_list_equality() -> None:
+    """Test that style lists can be easily compared."""
+    assert AssStyleList() != 5
+    assert AssStyleList() == AssStyleList()
+    assert AssStyleList() != AssStyleList(name="changed")
+    assert AssStyleList(data=[AssStyle(name="dummy style")]) == AssStyleList(
+        data=[AssStyle(name="dummy style")]
+    )
+    assert AssStyleList(data=[AssStyle(name="dummy style")]) != AssStyleList(
+        data=[AssStyle(name="changed")]
+    )

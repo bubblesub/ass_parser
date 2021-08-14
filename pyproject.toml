@@ -16,7 +16,9 @@ jobs = 0
 [tool.pylint.message_control]
 disable = [
     "import-error",  # for pre-commit, which cannot install external modules
+    "no-member",  # leave type checking to mypy
     "signature-differs",  # leave type checking to mypy
+    "duplicate-code",
     "too-few-public-methods",
     "too-many-instance-attributes",
 ]

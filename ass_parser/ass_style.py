@@ -1,6 +1,6 @@
 """AssStyle definition."""
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 from ass_parser.ass_color import AssColor
 from ass_parser.observable_object_mixin import ObservableObjectMixin
@@ -113,3 +113,18 @@ class AssStyle(ObservableObjectMixin):
             }
         )
         return ret
+
+    def __eq__(self, other: Any) -> bool:
+        """Check for equality. Ignores parent list and event handlers.
+
+        :param other: other object
+        :return: whether objects are equal
+        """
+        if not isinstance(other, AssStyle):
+            return False
+        return all(
+            key.startswith("_")
+            or key == "parent"
+            or getattr(self, key) == getattr(other, key)
+            for key in self.__dataclass_fields__  # type: ignore
+        )
