@@ -143,7 +143,7 @@ def test_ass_style_list_pickling_preserves_style_parenthood() -> None:
 
 
 def test_ass_style_list_from_ass_string() -> None:
-    """Test AssStringTableSection.from_ass_string function behavior."""
+    """Test AssStyleList.from_ass_string function behavior."""
     result = AssStyleList.from_ass_string(
         """[Test Section]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding

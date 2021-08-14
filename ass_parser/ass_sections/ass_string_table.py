@@ -1,4 +1,4 @@
-"""AssStringTableSection definition."""
+"""AssStringTable definition."""
 from ass_parser.ass_sections.ass_base_tabular_section import (
     AssBaseTabularSection,
 )
@@ -7,7 +7,7 @@ from ass_parser.observable_sequence_mixin import ObservableSequenceMixin
 AssStringTableSectionItem = tuple[str, dict[str, str]]
 
 
-class AssStringTableSection(
+class AssStringTable(
     ObservableSequenceMixin[AssStringTableSectionItem],
     AssBaseTabularSection[AssStringTableSectionItem],
 ):

@@ -8,7 +8,7 @@ from ass_parser.ass_sections import (
     AssEventList,
     AssKeyValueMapping,
     AssScriptInfo,
-    AssStringTableSection,
+    AssStringTable,
     AssStyleList,
 )
 from ass_parser.ass_style import AssStyle
@@ -24,7 +24,7 @@ __all__ = [
     "AssFile",
     "AssKeyValueMapping",
     "AssScriptInfo",
-    "AssStringTableSection",
+    "AssStringTable",
     "AssStyle",
     "AssStyleList",
     "CorruptAssError",

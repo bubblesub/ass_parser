@@ -164,7 +164,7 @@ def test_ass_event_list_default_section_name() -> None:
 
 
 def test_ass_event_list_from_ass_string() -> None:
-    """Test AssStringTableSection.from_ass_string function behavior."""
+    """Test AssStringTable.from_ass_string function behavior."""
     result = AssEventList.from_ass_string(
         """[Test Section]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text

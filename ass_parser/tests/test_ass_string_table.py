@@ -1,12 +1,12 @@
-"""Tests for the AssStringTableSection class."""
+"""Tests for the AssStringTable class."""
 import pytest
 
-from ass_parser import AssStringTableSection, CorruptAssError
+from ass_parser import AssStringTable, CorruptAssError
 
 
-def test_ass_string_table_section_from_ass_string() -> None:
-    """Test AssStringTableSection.from_ass_string function behavior."""
-    result = AssStringTableSection.from_ass_string(
+def test_ass_string_table_from_ass_string() -> None:
+    """Test AssStringTable.from_ass_string function behavior."""
+    result = AssStringTable.from_ass_string(
         """[Test Section]
 ;comment
 Format: abc,def
@@ -35,10 +35,10 @@ Item: value3,value4
         ("[section]\nFormat:abc,def,ghj\nItem: value", "expected 3 values"),
     ],
 )
-def test_ass_string_table_section_from_invalid_ass_string(
+def test_ass_string_table_from_invalid_ass_string(
     source: str, expected_error: str
 ) -> None:
-    """Test AssStringTableSection.from_ass_string function behavior."""
+    """Test AssStringTable.from_ass_string function behavior."""
     with pytest.raises(CorruptAssError) as exc:
-        AssStringTableSection.from_ass_string(source)
+        AssStringTable.from_ass_string(source)
     assert expected_error in str(exc)

@@ -7,7 +7,7 @@ from ass_parser.ass_sections import (
     AssEventList,
     AssKeyValueMapping,
     AssScriptInfo,
-    AssStringTableSection,
+    AssStringTable,
     AssStyleList,
 )
 from ass_parser.ass_sections.const import (
@@ -83,7 +83,7 @@ class AssFile:
             elif section_info.name == SCRIPT_INFO_SECTION_NAME:
                 self.script_info.consume_ass_lines(section_info.lines)
             elif section_info.is_tabular:
-                section = AssStringTableSection(name=section_info.name)
+                section = AssStringTable(name=section_info.name)
                 section.consume_ass_lines(section_info.lines)
                 self.extra_sections.append(section)
             else:
