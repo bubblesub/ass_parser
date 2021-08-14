@@ -142,7 +142,7 @@ class AssEventList(
             "Start": ms_to_ass_timestamp(own_item.start),
             "End": ms_to_ass_timestamp(own_item.end),
             "Style": str(own_item.style_name),
-            "Actor": str(own_item.actor),
+            "Name": str(own_item.actor),
             "MarginL": str(own_item.margin_left),
             "MarginR": str(own_item.margin_right),
             "MarginV": str(own_item.margin_vertical),

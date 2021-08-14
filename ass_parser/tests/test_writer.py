@@ -19,7 +19,7 @@ Format: Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackC
 Style: Default,Arial,55,&H00E7F4FF,&H000000FF,&H0025315A,&H00000000,-1,0,0,0,100,100,0,0,1,2.5,0,2,10,10,10,1
 
 [Events]
-Format: Layer,Start,End,Style,Actor,MarginL,MarginR,MarginV,Effect,Text
+Format: Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text
 Dialogue: 0,0:00:06.21,0:00:07.22,Default,,0,0,0,,{TIME:6210,7220}Ako!{NOTE:アコ}
 Dialogue: 0,0:00:08.71,0:00:10.95,Default,,0,0,0,,{TIME:8710,10950}- Shizu!\\N- Ako!
 
