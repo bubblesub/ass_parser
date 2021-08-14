@@ -255,3 +255,25 @@ def test_ass_event_list_extending_with_another_list() -> None:
     assert len(events2) == 1
     events1.extend(map(copy, events2))
     assert len(events1) == 1
+
+
+def test_ass_event_text_emits_change_event() -> None:
+    """Test that setting text emits a change event."""
+    subscriber = Mock()
+    event = AssEvent()
+    events = AssEventList(data=[event])
+    events.changed.subscribe(subscriber)
+    subscriber.assert_not_called()
+    event.text = "line 1\nline 2"
+    subscriber.assert_called_once()
+
+
+def test_ass_event_note_emits_change_event() -> None:
+    """Test that setting note emits a change event."""
+    subscriber = Mock()
+    event = AssEvent()
+    events = AssEventList(data=[event])
+    events.changed.subscribe(subscriber)
+    subscriber.assert_not_called()
+    event.note = "line 1\nline 2"
+    subscriber.assert_called_once()

@@ -33,7 +33,6 @@ def test_ass_event_note_replaces_newlines() -> None:
 def test_ass_event_text_emits_change_event() -> None:
     """Test that setting text emits a change event."""
     subscriber = Mock()
-    assert AssEvent(text="line 1\nline 2").text == "line 1\\Nline 2"
     event = AssEvent()
     event.changed.subscribe(subscriber)
     subscriber.assert_not_called()
@@ -44,7 +43,6 @@ def test_ass_event_text_emits_change_event() -> None:
 def test_ass_event_note_emits_change_event() -> None:
     """Test that setting note emits a change event."""
     subscriber = Mock()
-    assert AssEvent(note="line 1\nline 2").note == "line 1\\Nline 2"
     event = AssEvent()
     event.changed.subscribe(subscriber)
     subscriber.assert_not_called()
