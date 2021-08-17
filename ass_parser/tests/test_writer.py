@@ -43,7 +43,7 @@ Cuisine: Veggies,1
 
 
 def test_write_ass_to_stream(dummy_ass_file: str) -> None:
-    """Test read_ass function when the source is a string."""
+    """Test read_ass function when the target is a stream."""
     with io.StringIO() as handle:
         ass_file = read_ass(dummy_ass_file)
         write_ass(ass_file, handle)
@@ -53,11 +53,18 @@ def test_write_ass_to_stream(dummy_ass_file: str) -> None:
 
 
 def test_write_ass_to_path(dummy_ass_file: str) -> None:
-    """Test read_ass function when the source is a string."""
+    """Test read_ass function when the target is a path."""
     with tempfile.NamedTemporaryFile() as temp_file:
         path = Path(temp_file.name)
         ass_file = read_ass(dummy_ass_file)
         write_ass(ass_file, path)
         result = path.read_text()
 
+    assert result == DUMMY_ASS_FILE_REPARSED
+
+
+def test_write_ass_to_string(dummy_ass_file: str) -> None:
+    """Test read_ass function when the target is missing."""
+    ass_file = read_ass(dummy_ass_file)
+    result = write_ass(ass_file)
     assert result == DUMMY_ASS_FILE_REPARSED
