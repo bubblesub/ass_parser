@@ -1,4 +1,6 @@
 """Fixtures."""
+from pathlib import Path
+
 import pytest
 
 DUMMY_ASS_FILE = """\N{BOM}[Script Info]
@@ -46,3 +48,21 @@ def fixture_dummy_ass_file() -> str:
 
     :return: a dummy ASS file"""
     return DUMMY_ASS_FILE
+
+
+@pytest.fixture(name="project_dir")
+def fixture_project_dir() -> Path:
+    """Return path to the Python project directory.
+
+    :return: a path
+    """
+    return Path(__file__).parent.parent
+
+
+@pytest.fixture(name="repo_dir")
+def fixture_repo_dir(project_dir: Path) -> Path:
+    """Return path to the parent git repository directory.
+
+    :return: a path
+    """
+    return project_dir.parent
