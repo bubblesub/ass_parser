@@ -14,5 +14,4 @@ clean:
 	rm -rf .mypy_cache
 	rm -rf .pytest_cache
 
-.PHONY:
-	release test clean
+.PHONY: release test lint clean
